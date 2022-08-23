@@ -29,6 +29,8 @@ So far, application supports following:
 - location of each player included in current set of data from "three-sixty" file type is displayed for choosen number of frame (choosen event during match)
 - some common data regarding event details is presented.
 
+![My Image](/Resources/sample_screen.PNG)
+
 # Limitations caused by source data
 - Particular players cannot be easily distinguished for every video frame. There is no such information provided in json files. So there is only a division into players of one and second team. 
 - Not all player data is included for particular frame, so not always 22 players are presented. Basically, presented are only those who have been inside video frame which the data was originally collected from.
