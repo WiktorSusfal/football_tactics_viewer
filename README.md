@@ -2,14 +2,14 @@
 Python app to visualize json data describing the course of a particular football match
 
 # Main modules used:
-Visualization                 - PyQt5 
-Json dataset transformations  - pandas
+- Visualization                 - PyQt5
+- Json dataset transformations  - pandas
 
 # Modules developed:
-FTV_JsonData.py   - read, parse, normalize json data and save it as a set of dataframes
-FTV_GUIData.py    - manage a list of objects defined in FTV_JsonData.py and prepare data for application GUI
-FTV_UI_Manager.py - all stuff related to GUI of application
-main.py           - example of invoking application
+-FTV_JsonData.py   - read, parse, normalize json data and save it as a set of dataframes
+-FTV_GUIData.py    - manage a list of objects defined in FTV_JsonData.py and prepare data for application GUI
+-FTV_UI_Manager.py - all stuff related to GUI of application
+-main.py           - example of invoking application
 
 # Source Data
 Source data - 3 types of json files for every football match - comes from StatsBomb open data repository: https://github.com/statsbomb/open-data.
