@@ -6,10 +6,10 @@ Python app to visualize json data describing the course of a particular football
 - Json dataset transformations  - pandas
 
 # Modules developed:
--FTV_JsonData.py   - read, parse, normalize json data and save it as a set of dataframes
--FTV_GUIData.py    - manage a list of objects defined in FTV_JsonData.py and prepare data for application GUI
--FTV_UI_Manager.py - all stuff related to GUI of application
--main.py           - example of invoking application
+- FTV_JsonData.py   - read, parse, normalize json data and save it as a set of dataframes
+- FTV_GUIData.py    - manage a list of objects defined in FTV_JsonData.py and prepare data for application GUI
+- FTV_UI_Manager.py - all stuff related to GUI of application
+- main.py           - example of invoking application
 
 # Source Data
 Source data - 3 types of json files for every football match - comes from StatsBomb open data repository: https://github.com/statsbomb/open-data.
@@ -30,7 +30,7 @@ So far, application supports following:
 - some common data regarding event details is presented.
 
 # Limitations caused by source data
-- Particular players cannot be easily distinguished for every video frame. There is no such information proivded in json files. So there is only a division into players of one and second team. 
+- Particular players cannot be easily distinguished for every video frame. There is no such information provided in json files. So there is only a division into players of one and second team. 
 - Not all player data is included for particular frame, so not always 22 players are presented. Basically, presented are only those who have been inside video frame which the data was originally collected from.
 - Goalkeepers from teams cannot be easily distinguished and are being represented by the same graphic objects.
 - Ball location is not provided and ball is not presented in app so far.
