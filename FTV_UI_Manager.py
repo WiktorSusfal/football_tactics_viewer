@@ -46,7 +46,8 @@ DATASET_DETAILS_WIDTH = RIGHT_PANE_WIDTH
 
 
 # set of static functions used in code below - to return some pre-customized PyQt5 objects
-def returnPushButton(text='N/A', tool_tip='', width=SMALL_BUTTON_WIDTH, height=SMALL_BUTTON_HEIGHT):
+def returnPushButton(text: str = 'N/A', tool_tip: str = '',
+                     width: int = SMALL_BUTTON_WIDTH, height: int = SMALL_BUTTON_HEIGHT) -> pqt.QPushButton:
     push_button = pqt.QPushButton(text)
     push_button.setToolTip(tool_tip)
     push_button.setFixedSize(width, height)
