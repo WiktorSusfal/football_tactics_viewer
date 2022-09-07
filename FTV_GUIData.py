@@ -9,8 +9,12 @@ class FTV_GUIDataManager:
         # dictionary of complete datasets for visualizing the tactics - objects: 'FTV_JsonData.FTV_JsonDataManager'
         self.ftv_datasets = dict()
 
-    def add_new_ftv_dataset(self, dataset_name='default') -> str:
-        new_uuid = str(uuid.uuid4())
+    def add_new_ftv_dataset(self, dataset_name: str = 'default', dataset_uuid: str = str()) -> str:
+        if not dataset_uuid:
+            new_uuid = str(uuid.uuid4())
+        else:
+            new_uuid = dataset_uuid
+
         self.ftv_datasets[new_uuid] = FTV_JsonData.FTV_JsonDataManager(dataset_name)
 
         return new_uuid

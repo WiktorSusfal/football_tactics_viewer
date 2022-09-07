@@ -1,3 +1,6 @@
+import sys
+sys.path.append('./Resources/Lib')
+
 import pandas as pd
 import numpy as np
 from PyQt5 import QtWidgets as pqt
@@ -5,6 +8,10 @@ from PyQt5 import QtCore as qt
 from PyQt5 import QtGui as qtg
 import FTV_GUIData as ftvgd
 import FTV_JsonData as ftvjs
+
+from Resources.Lib import DLW_GUIList as GLI
+from Resources.Lib import PyQT5_GUI_Builder as GBU
+
 
 MAIN_WINDOW_HEIGHT = 750
 MAIN_WINDOW_WIDTH = 1100
@@ -64,7 +71,7 @@ def returnLabel(text='N/A', width=SMALL_LABEL_WIDTH, height=SMALL_LABEL_HEIGHT):
 
 
 def returnQLineEdit(text='N/A', tool_tip='', width=SMALL_LABEL_WIDTH, height=SMALL_LABEL_HEIGHT):
-    input_field = pqt.QLineEdit(text)
+    input_field = pqt.QLineEdit(text, objectName='asdasd')
     input_field.setToolTip(tool_tip)
     input_field.setFixedSize(width, height)
 

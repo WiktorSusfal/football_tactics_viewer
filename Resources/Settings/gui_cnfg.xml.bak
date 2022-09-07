@@ -34,11 +34,11 @@
 								<parameter value="200" type="int"/>
 								<parameter value="50" type="int"/>
 							</parameters>
-							<setting_attributes>
-								<component_attr parent_type_id="0" name="setFixedSize"/>
-							</setting_attributes>
+							<setting_attribute>
+								<component_attr parent_type_id="0" ancestor_level="0" name="setFixedSize"/>
+							</setting_attribute>
 						</feature>
-					</features>
+					</features
 				</component>
 			</components>
 		</layout>

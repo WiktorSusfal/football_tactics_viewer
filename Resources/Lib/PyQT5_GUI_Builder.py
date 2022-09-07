@@ -44,7 +44,7 @@ class XmlAttrsNames(Enum):
     ARG_KIND_ATTR = 'kind'
     ARG_NAME_ATTR = 'arg_name'
     PARENT_TYPE_ID = 'parent_type_id'
-    ARG_MODULE_ID = 'module_id'
+    PARENT_MODULE_ID = 'module_id'
     SETTING_ATTR_NAME = 'name'
 
 
@@ -367,7 +367,7 @@ class PyQT5_GUI_Builder:
         elif parent_type_id == "1":
             # In this case, there must be 'module_id' attribute specified for current XML node. Read it.
             # Read the module name using the id read from XML node and the dictionary of modules' information.
-            module_name = modules_data[xml_node.attrib[XmlAttrsNames.ARG_MODULE_ID.value]]
+            module_name = modules_data[xml_node.attrib[XmlAttrsNames.PARENT_MODULE_ID.value]]
             # Assign the exact object to the result variable.
             obj = cls.returnObjectByName(module_name, object_name)
         # In the following case, the parent object is an object that called this function.
@@ -449,14 +449,20 @@ class MainWindow(QtWidgets.QMainWindow):
     """
     def __init__(self):
         super().__init__()
-
         # Build the main layout attribute based on given XML config file.
-        self.gui_layout = PyQT5_GUI_Builder.returnGuiLayout('Resources/Settings/gui_cnfg_2.xml',
-                                                            "dataListElement",
+        # HERE THE PATH TO RELEVANT XML CONFIG FILE SHOULD BE SPECIFIED
+        # Path to 1st example file  - Resources/Settings/EX1_QLabel_And_QLineEdit.xml
+        #             layout name   - 1_QLabel_1_QLineEdit
+        # Path to 2nd example file  - Resources/Settings/EX2_2_Rows_Of_QLabel_And_QLineEdit.xml
+        #             layout name   - 2_Rows_Of_QLabel_QLineEdit
+        # Path to 3rd example file  - Resources/Settings/EX3_TwoButtonsWithDifferentMethods.xml
+        #             layout name   - Two_buttons_with_different_methods
+        self.gui_layout = PyQT5_GUI_Builder.returnGuiLayout('Resources/Settings/EX3_TwoButtonsWithDifferentMethods.xml',
+                                                            'Two_buttons_with_different_methods',
                                                             self)
 
         self.setWindowTitle('PyQt5 GUI Builder - from XML')
-        self.setFixedSize(600, 600)
+        self.setFixedSize(600, 400)
 
         self.central_widget = QtWidgets.QWidget()
         self.setCentralWidget(self.central_widget)
