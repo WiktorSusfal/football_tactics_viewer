@@ -176,6 +176,8 @@ class DLW_List(qtw.QWidget):
 
         # event handler object to communicate about new list item selected to subscribers
         self.selected_element_changed_handler = eh.DLW_EventHandler()
+        # event handler object to communicate about list element deleted
+        self.deleted_element_handler = eh.DLW_EventHandler()
 
         # setting main layout of the list
         self.main_layout = qtw.QVBoxLayout()
@@ -235,6 +237,7 @@ class DLW_List(qtw.QWidget):
                 self.selected_element_changed_handler(self.selected_element)
 
             element_to_remove.unsubscribeHandler()
+            self.deleted_element_handler(element_to_remove.id)
             self.elements.remove(element_to_remove)
         else:
             raise ValueError('Cannot remove element from list. Element is None.')

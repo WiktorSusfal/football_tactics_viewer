@@ -42,30 +42,22 @@
 					<components>
 						<component type="self" module_id="0" class_id="2">
 							<constructor_args>
-								<arg value="addddddd" type="str" kind="named" arg_name="objectName"/>
+								<arg value="add_dataset_subform" type="str" kind="named" arg_name="objectName"/>
 							</constructor_args>
 						</component>
 						<component type="widget" module_id="0" class_id="1">
 							<constructor_args>
-								<arg value="" type="str" kind="unnamed"/>
 								<arg value="add_dataset_line_edit" type="str" kind="named" arg_name="objectName"/>
+								<arg value="Enter friendly name of new Dataset and press 'Add'" type="str" kind="named" arg_name="toolTip"/>
 							</constructor_args>
 							<features>
-								<feature>
+								<feature>sd
 									<feature_args>
 										<arg value="285" type="int" kind="unnamed"/>
-										<arg value="30" type="int" kind="unnamed"/>
+										<arg value="25" type="int" kind="unnamed"/>
 									</feature_args>
 									<setting_attributes>
 										<component_attr parent_type_id="0" name="setFixedSize"/>
-									</setting_attributes>
-								</feature>
-								<feature>
-									<feature_args>
-										<arg value="Enter friendly name of new Dataset and press 'Add'" type="str" kind="unnamed"/>
-									</feature_args>
-									<setting_attributes>
-										<component_attr parent_type_id="0" name="setToolTip"/>
 									</setting_attributes>
 								</feature>
 							</features>
@@ -75,29 +67,94 @@
 								<arg value="Add" type="str" kind="unnamed"/>
 								<arg value="add_dataset_button" type="str" kind="named" arg_name="objectName"/>
 								<arg value="addListElement" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+								<arg value="Enter friendly name of new Dataset and press 'Add'" type="str" kind="named" arg_name="toolTip"/>
 							</constructor_args>
 							<features>
 								<feature>
 									<feature_args>
 										<arg value="40" type="int" kind="unnamed"/>
-										<arg value="30" type="int" kind="unnamed"/>
+										<arg value="27" type="int" kind="unnamed"/>
 									</feature_args>
 									<setting_attributes>
 										<component_attr parent_type_id="0" name="setFixedSize"/>
-									</setting_attributes>
-								</feature>
-								<feature>
-									<feature_args>
-										<arg value="Enter friendly name of new Dataset and press 'Add'" type="str" kind="unnamed"/>
-									</feature_args>
-									<setting_attributes>
-										<component_attr parent_type_id="0" name="setToolTip"/>
 									</setting_attributes>
 								</feature>
 							</features>
 						</component>
 					</components>
 				</layout>
+			</components>
+		</layout>
+		<layout name="dataset_gui_list_element" id="1">
+			<components>
+				<component type="self" module_id="0" class_id="2"/>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="new_dataset_name_provided" type="var" kind="unnamed" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="120" type="int" kind="unnamed"/>
+								<arg value="20" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="P_L" type="str" kind="unnamed"/>
+						<arg value="Choose path for lineups json file" type="str" kind="named" arg_name="toolTip"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="P_E" type="str" kind="unnamed"/>
+						<arg value="Choose path for events json file" type="str" kind="named" arg_name="toolTip"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="P_F" type="str" kind="unnamed"/>
+						<arg value="Choose path for frames json file" type="str" kind="named" arg_name="toolTip"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
 			</components>
 		</layout>
 	</layouts>
