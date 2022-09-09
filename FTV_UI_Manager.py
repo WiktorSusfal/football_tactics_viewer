@@ -320,8 +320,10 @@ class DataSetList(pqt.QWidget):
             self.gdm.ftv_datasets[uuid_to_update].assignFilePaths(ftvjs.FTV_DataReadModes.LINEUPS.value, filepath)
 
 
-# class for football pitch visualization
 class PitchView(pqt.QWidget):
+    """
+    Class for football pitch visualization. Contains methods to draw players positions on the pitch based on given data.
+    """
     def __init__(self):
         super().__init__()
         # define ranges (in pixels) of exact pitch rectangle (excluding borders on the pitch image)

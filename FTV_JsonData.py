@@ -3,8 +3,13 @@ import pandas as pd
 from enum import Enum
 
 
-# returns structured json data read from file - in form of dictionary or list of dictionaries
-def returnJsonData(filepath):
+def returnJsonData(filepath: str):
+    """
+    Returns structured json data read from file - in form of dictionary or list of dictionaries
+
+    :param filepath: String filepath of the file containing source data.
+    :return: Structured json data read from file - in form of dictionary or list of dictionaries.
+    """
     with open(filepath) as json_file:
         json_data = json.load(json_file)
 
@@ -12,7 +17,13 @@ def returnJsonData(filepath):
 
 
 def parseJsonToTable(list_of_json_objects):
-    # in case there is only one json object provided not in form of list, create one-element list
+    """
+    Parses structured json data to pandas dataframe. Accepts list of dictionaries (json structured data objects) or
+    single dictionary.
+
+    :param list_of_json_objects: List of dictionaries (json structured data objects) or single dictionary.
+    :return: Pandas DataFrame
+    """
     if not isinstance(list_of_json_objects, list):
         list_of_json_objects = [list_of_json_objects]
 
@@ -24,12 +35,19 @@ def parseJsonToTable(list_of_json_objects):
 
 
 class FTV_DataReadModes(Enum):
+    """
+    Contains possible values of 'mode' parameter describing which kind of data is being read - LINEUPS, EVENTS or FRAMES
+    """
     LINEUPS = 0
     EVENTS = 1
     FRAMES = 2
 
 
 class FTV_FramesJsonAttrNames(Enum):
+    """
+    Contains possible names of json attributes from raw json file that is a base for Pandas DataFrame -
+    "frames_main" which is the attribute of 'FTV_JsonDataManager' class.
+    """
     EVENT_UUID = 'event_uuid'
     VISIBLE_AREA = 'visible_area'
     FREEZE_FRAME = 'freeze_frame'
@@ -40,6 +58,10 @@ class FTV_FramesJsonAttrNames(Enum):
 
 
 class FTV_EventsJsonAttrNames(Enum):
+    """
+    Contains possible names of columns for Pandas DataFrame - "events_main" that is the attribute of
+    'FTV_JsonDataManager' class.
+    """
     ID = 'id'
     PERIOD = 'period'
     TIMESTAMP = 'timestamp'
@@ -54,11 +76,19 @@ class FTV_EventsJsonAttrNames(Enum):
 
 
 class FTV_LineupsJsonAttrNames(Enum):
+    """
+    Contains possible names of columns for Pandas DataFrame - "lineups_main" that is the attribute of
+    'FTV_JsonDataManager' class.
+    """
     TEAM_ID = 'team_id'
     TEAM_NAME = 'team_name'
 
 
 class FTV_JsonDataManager:
+    """
+    Class responsible for reading raw json data from given files, parse the data, normalize and store in relevant
+    pandas DataFrames. This data is then visualized on application GUI - from 'FTV_UI_Manager' module.
+    """
 
     def __init__(self, obj_name='default'):
         # friendly name of object
@@ -140,12 +170,16 @@ class FTV_JsonDataManager:
         # TEAM_NAME - string - name of team
         self.lineups_main = pd.DataFrame()
 
-    '''
-    function for assigning relevant file path. updates class attributes, doesn't return anything
-    'mode' parameter determines what data is read. Values provided in 'FTV_DataReadModes' class
-    '''
-
     def assignFilePaths(self, mode: int, path: str):
+        """
+        Function for assigning relevant file paths. Updates class attributes, doesn't return anything.
+        'mode' parameter determines what data is read. Possible values for this param provided in 'FTV_DataReadModes'
+        enum class.
+
+        :param mode: Integer that determines what kind of data is read (EVENTS, LINEUPS or FRAMES).
+        :param path: String variable representing path of the file containing data.
+        """
+
         match mode:
             case FTV_DataReadModes.LINEUPS.value:
                 self.lineups_filepath = path
@@ -156,12 +190,14 @@ class FTV_JsonDataManager:
             case _:
                 raise ValueError('Invalid value for data read mode provided in "assignFilePaths" function')
 
-    '''
-    function for reading data from particular Json file. updates class attributes, doesn't return anything
-    'mode' parameter determines what data is read. Values provided in 'FTV_DataReadModes' class
-    '''
+    def readJsonData(self, mode: int):
+        """
+        Function for reading data from particular Json file. Updates class attributes, doesn't return anything.
 
-    def readJsonData(self, mode):
+        :param mode: Integer that determines what data is read - EVENTS, LINEUPS or FRAMES. Possible values provided in
+            'FTV_DataReadModes' class
+        :return: None
+        """
         match mode:
             case FTV_DataReadModes.LINEUPS.value:
                 if self.lineups_filepath:
@@ -178,15 +214,19 @@ class FTV_JsonDataManager:
             case _:
                 raise ValueError('Invalid value for data read mode provided in "readJsonData" function')
 
-    '''
-    high-level normalization function - manages the data normalization process for all json file types.
-    normalization is about extracting structured data stored in dataframe columns (list, dictionaries) and 
-    transferring it to another dataframes (one list/dict value by column) with relevant key column that references
-    original table. when structured data has always the same length, it is being "unpacked" to new columns in 
-    existing original dataframe
-    '''
-
     def normalizeJsonData(self):
+        """
+        High-level normalization function - manages the data normalization process for all json file types.
+
+        Normalization is about extracting structured data stored in dataframe columns (list, dictionaries) and
+        transferring it to another dataframes (one list/dict value by column) with relevant key column that references
+        original table.
+
+        If structured data has always the same length, it is being "unpacked" to new columns in existing original
+        dataframe.
+
+        :return: None
+        """
         if len(self.frames_raw_dataframe.index) > 0:
             self.normalizeFramesData()
         if len(self.events_raw_dataframe.index) > 0:
@@ -206,8 +246,12 @@ class FTV_JsonDataManager:
 
         self.frames_raw_dataframe = pd.DataFrame()
 
-    # sub-function for normalization the data from 'visible_area' column (data read from 'visible_area' json objects)
     def normalizeFD_visibleAreaColumn(self):
+        """
+        Sub-function for normalization the data from 'visible_area' column (data read from 'visible_area' json objects).
+
+        :return: None
+        """
         visible_area_column_list = ['main_event_idx', 'corner_no', 'x', 'y']
         visible_area_series = self.frames_raw_dataframe[FTV_FramesJsonAttrNames.VISIBLE_AREA.value]
         self.frames_visible_area = pd.DataFrame(columns=visible_area_column_list)
@@ -234,8 +278,12 @@ class FTV_JsonDataManager:
 
         del self.frames_raw_dataframe[FTV_FramesJsonAttrNames.VISIBLE_AREA.value]
 
-    # sub-function for normalization the data from 'freeze_frames' column (data read from 'freeze_frames' json objects)
     def normalizeFD_freezeFrameColumn(self):
+        """
+        Sub-function for normalization the data from 'freeze_frames' column (data read from 'freeze_frames' json objects)
+
+        :return: None
+        """
         freeze_frame_series = self.frames_raw_dataframe[FTV_FramesJsonAttrNames.FREEZE_FRAME.value]
         # the attribute names of nested json object
         freeze_frame_column_list = ['main_event_idx', 'teammate', 'actor', 'keeper', 'loc_x', 'loc_y']
@@ -297,16 +345,16 @@ class FTV_JsonDataManager:
         for idx, row in self.events_main.iterrows():
             # 'EVENT_TEAM_details' is a list where values from a dictionary (with two keys: 'id' and 'name') are copied.
             # the dictionary mentioned above is stored in a column 'row[FTV_EventsJsonAttrNames.EVENT_TEAM.value]'
-            EVENT_TEAM_details = [
+            event_team_details = [
                 row[FTV_EventsJsonAttrNames.EVENT_TEAM.value][FTV_EventsJsonAttrNames.EVENT_TEAM_ID.value],
                 row[FTV_EventsJsonAttrNames.EVENT_TEAM.value][FTV_EventsJsonAttrNames.EVENT_TEAM_NAME.value]
             ]
-            possession_team_rows.append(EVENT_TEAM_details)
+            possession_team_rows.append(event_team_details)
 
         # create new dataframe that contains newly created columns (results of the normalization)
-        EVENT_TEAM_details_dataframe = pd.DataFrame(possession_team_rows, columns=['event_team_id', 'event_team_name'])
+        event_team_details_dataframe = pd.DataFrame(possession_team_rows, columns=['event_team_id', 'event_team_name'])
         # add new columns from dataframe created above to main dataframe and delete non-normalized original column
-        self.events_main = pd.concat([self.events_main, EVENT_TEAM_details_dataframe], axis=1)
+        self.events_main = pd.concat([self.events_main, event_team_details_dataframe], axis=1)
         del self.events_main[FTV_EventsJsonAttrNames.EVENT_TEAM.value]
 
         # not every event has relevant data related to player positions on pitch
