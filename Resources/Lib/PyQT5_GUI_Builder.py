@@ -57,6 +57,7 @@ class XmlCommonAttrValues(Enum):
     ARG_TYPE_INTEGER = 'int'
     ARG_TYPE_STRING = 'str'
     ARG_TYPE_VARIABLE = 'var'
+    ARG_TYPE_SELF = 'self'
     ARG_KIND_NAMED = 'named'
     ARG_KIND_UNNAMED = 'unnamed'
 
@@ -324,6 +325,9 @@ class PyQT5_GUI_Builder:
             # object based on its parent's type.
             if arg_type == XmlCommonAttrValues.ARG_TYPE_VARIABLE.value:
                 arg_value = cls.getObjectBasedOnParentType(arg, modules_data, arg_value, current_object, base_object)
+
+            if arg_type == XmlCommonAttrValues.ARG_TYPE_SELF.value:
+                arg_value = current_object
 
             # Add this argument to relevant container based on its 'kind' XML attribute
             if arg_kind == XmlCommonAttrValues.ARG_KIND_NAMED.value:

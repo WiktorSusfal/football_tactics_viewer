@@ -1,4 +1,4 @@
-from Utilities import PropertyChangedEventHandler as uPCEventHandler
+from OO_EH_Utilities import PropertyChangedEventHandler as uPCEventHandler
 
 
 class ObservableObject(object):

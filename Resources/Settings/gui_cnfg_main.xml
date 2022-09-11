@@ -10,6 +10,7 @@
 			<class name="QHBoxLayout" id="2"/>
 			<class name="QVBoxLayout" id="3"/>
 			<class name="QPushButton" id="4"/>
+			<class name="QPixmap" id="5"/>
 		</classes>
 		<parent_object_types>
 			<parent desc="current object" id="0"/>
@@ -161,6 +162,374 @@
 						</feature>
 					</features>
 				</component>
+			</components>
+		</layout>
+		<layout name="pitch_legend_layout" id="2">
+			<components>
+				<component type="self" module_id="0" class_id="2"/>
+				<component type="widget" module_id="0" class_id="0">
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="Resources/red_rect.png" type="str" kind="named" arg_name="path"/>
+								<arg value="" type="self" kind="named" arg_name="dst_obj"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr name="nestPixmapInLabel" parent_type_id="2"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="None" type="str" kind="unnamed"/>
+						<arg value="first_team_legend_label" type="str" kind="named" arg_name="objectName"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="100" type="int" kind="unnamed"/>
+								<arg value="20" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="Resources/blue_rect.png" type="str" kind="named" arg_name="path"/>
+								<arg value="" type="self" kind="named" arg_name="dst_obj"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr name="nestPixmapInLabel" parent_type_id="2"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="None" type="str" kind="unnamed"/>
+						<arg value="second_team_legend_label" type="str" kind="named" arg_name="objectName"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="100" type="int" kind="unnamed"/>
+								<arg value="20" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+			</components>
+		</layout>
+		<layout name="frame_control_layout" id="3">
+			<components>
+				<component type="self" module_id="0" class_id="2"/>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="&lt;" type="str" kind="unnamed"/>
+						<arg value="Get previous frame" type="str" kind="named" arg_name="toolTip"/>
+						<arg value="getPrevEventDetails" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="Timestamp: " type="str" kind="unnamed"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="85" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="N/A" type="str" kind="unnamed"/>
+						<arg value="current_timestamp" type="str" kind="named" arg_name="objectName"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="85" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="&gt;" type="str" kind="unnamed"/>
+						<arg value="Get next frame" type="str" kind="named" arg_name="toolTip"/>
+						<arg value="getNextEventDetails" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="1">
+					<constructor_args>
+						<arg value="0" type="str" kind="unnamed"/>
+						<arg value="current_frame_with_input" type="str" kind="named" arg_name="objectName"/>
+						<arg value="You can enter desired frame number and press 'GO'" type="str" kind="named" arg_name="toolTip"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="50" type="int" kind="unnamed"/>
+								<arg value="20" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="/" type="str" kind="unnamed"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="18" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="0">
+					<constructor_args>
+						<arg value="0" type="str" kind="unnamed"/>
+						<arg value="no_of_frames" type="str" kind="named" arg_name="objectName"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="50" type="int" kind="unnamed"/>
+								<arg value="20" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="GO" type="str" kind="unnamed"/>
+						<arg value="Go to specified frame" type="str" kind="named" arg_name="toolTip"/>
+						<arg value="getGivenEventDetails" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="40" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+			</components>
+		</layout>
+		<layout name="right_panel_options" id="4">
+			<components>
+				<component type="self" module_id="0" class_id="2"/>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="Refresh Data" type="str" kind="unnamed"/>
+						<arg value="Refresh data on screen" type="str" kind="named" arg_name="toolTip"/>
+						<arg value="refreshData" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="160" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+				<component type="widget" module_id="0" class_id="4">
+					<constructor_args>
+						<arg value="Recalculate Data" type="str" kind="unnamed"/>
+						<arg value="Recalculate data from selected dataset" type="str" kind="named" arg_name="toolTip"/>
+						<arg value="recalculateData" type="var" kind="named" arg_name="clicked" parent_type_id="2"/>
+					</constructor_args>
+					<features>
+						<feature>
+							<feature_args>
+								<arg value="160" type="int" kind="unnamed"/>
+								<arg value="30" type="int" kind="unnamed"/>
+							</feature_args>
+							<setting_attributes>
+								<component_attr parent_type_id="0" name="setFixedSize"/>
+							</setting_attributes>
+						</feature>
+					</features>
+				</component>
+ 			</components>
+		</layout>
+		<layout name="information_rows" id="5">
+			<components>
+				<component type="self" module_id="0" class_id="3"/>
+				<layout name="information_row">
+					<components>
+						<component type="self" module_id="0" class_id="2"/>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value="Lineups json path" type="str" kind="unnamed"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="100" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value=": N/A" type="str" kind="unnamed"/>
+								<arg value="lineups_json_path" type="str" kind="named" arg_name="objectName"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="600" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+					</components>
+				</layout>
+				<layout name="information_row">
+					<components>
+						<component type="self" module_id="0" class_id="2"/>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value="Events json path" type="str" kind="unnamed"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="100" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value=": N/A" type="str" kind="unnamed"/>
+								<arg value="events_json_path" type="str" kind="named" arg_name="objectName"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="600" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+					</components>
+				</layout>
+				<layout name="information_row">
+					<components>
+						<component type="self" module_id="0" class_id="2"/>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value="Frames json path" type="str" kind="unnamed"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="100" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+						<component type="widget" module_id="0" class_id="0">
+							<constructor_args>
+								<arg value=": N/A" type="str" kind="unnamed"/>
+								<arg value="frames_json_path" type="str" kind="named" arg_name="objectName"/>
+							</constructor_args>
+							<features>
+								<feature>
+									<feature_args>
+										<arg value="600" type="int" kind="unnamed"/>
+										<arg value="30" type="int" kind="unnamed"/>
+									</feature_args>
+									<setting_attributes>
+										<component_attr parent_type_id="0" name="setFixedSize"/>
+									</setting_attributes>
+								</feature>
+							</features>
+						</component>
+					</components>
+				</layout>
 			</components>
 		</layout>
 	</layouts>

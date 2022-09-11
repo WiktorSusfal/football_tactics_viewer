@@ -154,7 +154,7 @@ def clearLayout(layout):
         :return: None
     """
     while layout.count() > 0:
-        item = layout.itemAt(0)
+        item = layout.takeAt(0)
         widget = item.widget()
         layout.removeWidget(widget)
 
@@ -230,14 +230,16 @@ class DLW_List(qtw.QWidget):
             :return: None
         """
         if element_to_remove is not None:
+
+            self.deleted_element_handler(element_to_remove.id)
+
             # if object that is being deleted is currently selected, reset the class attribute
             if element_to_remove == self.selected_element:
                 self.selected_element = None
                 # Publish information about change of the current selected element
-                self.selected_element_changed_handler(self.selected_element)
+                self.selected_element_changed_handler()
 
             element_to_remove.unsubscribeHandler()
-            self.deleted_element_handler(element_to_remove.id)
             self.elements.remove(element_to_remove)
         else:
             raise ValueError('Cannot remove element from list. Element is None.')
@@ -270,7 +272,7 @@ class DLW_List(qtw.QWidget):
             # update the reference to the current selected item
             self.updateSelectedItem(event_actor)
             # Publish information about change of the current selected element
-            self.selected_element_changed_handler(self.selected_element)
+            self.selected_element_changed_handler(event_actor)
         elif request_type == DLW_Requests.DELETION.value:
             # delete element from list
             self -= event_actor
