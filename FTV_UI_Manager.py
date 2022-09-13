@@ -804,9 +804,3 @@ class MainWindow(qtw.QMainWindow):
         # Subscription to event handler form 'DLW_List' instance that informs about element selection. Ensures
         # synchronization regarding current dataset selected between GUI list object and backed view model.
         self.dataset_gui_list.dataset_list.selected_element_changed_handler += self.g_data_manager.setCurrentUuid
-
-
-if __name__ == '__main__':
-    app = qtw.QApplication([])
-    app_main_gui = MainWindow()
-    app.exec_()

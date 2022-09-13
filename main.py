@@ -1,4 +1,4 @@
-import ___FTV_UI_Manager as ftvui
+import FTV_UI_Manager as ftvui
 from PyQt5 import QtWidgets as pqt
 
 if __name__ == '__main__':
