@@ -1,5 +1,5 @@
 # football_tactics_viewer
-Python app to visualize json data describing the course of a particular football match. Presentation video: https://www.youtube.com/watch?v=Qv1OLuy69R0
+Python app to visualize json data describing the course of a particular football match. Presentation video: https://youtu.be/leJww2ytKNQ
 
 # Main modules used:
 - Visualization                 - PyQt5
