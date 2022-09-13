@@ -1,3 +1,12 @@
+"""
+Contains definition of an event-handler that ensures event-driven synchronization of given attribute's values between
+chosen object. It is used with 'ObservableObjects.py' module - for implementing 'observable and observer objects'
+pattern.
+
+With this module, there can be notifications about given attribute's changes published, and the subscribers (observer
+objects) can receive new values of the desired attribute automatically, in a defined way.
+"""
+
 from enum import *
 
 
@@ -187,9 +196,10 @@ class PropertyChangedEventHandler:
             When 'setter_method_name' is 'None', then 'setattr' method is used.
         :param src_obj: Object containing an attribute with a source value to be passed to the destination.
         :param src_property_name: Name of the source attribute containing the value to be passed to the destination.
-        :param getter_method_name: Name of the method used to get the value of specified source attribute
-            (by default, the method is considered as a property of the attribute specified by 'src_property_name').
-            If the method is a property of 'src_obj', pass 'None' for 'src_property_name' parameter.
+        :param getter_method_name: Name of the method used to get the value of specified source attribute.
+            By default, the method is considered as a property of the attribute specified by 'src_property_name'. Only
+            if there is no such method assigned to this attribute, function tries to get the method directly from source
+            main object (specified by 'src_obj' parameter).
             When 'getter_method_name' is 'None' then 'getattr' method is used.
         :return: None
         """
@@ -197,6 +207,9 @@ class PropertyChangedEventHandler:
         # If destination or source objects are None, return exception error
         if dst_obj is None or src_obj is None:
             raise ValueError('Destination and source objects cannot be None!')
+        # If source property name is none, return error - there cannot be registered a variable without name
+        if src_property_name is None:
+            raise ValueError("Source property's name cannot be None")
 
         # STAGE 1 - Get the new value from source
 
@@ -206,7 +219,12 @@ class PropertyChangedEventHandler:
         # When getter method is custom
         else:
             # STAGE 1.1 - get the getter method - from source object or object's attribute
-            getter_method_owner = src_obj if src_property_name is None else getattr(src_obj, src_property_name)
+            src_property = getattr(src_obj, src_property_name)
+            if getter_method_name in src_property.__dir__():
+                getter_method_owner = src_property
+            else:
+                getter_method_owner = src_obj
+
             getter_method = getattr(getter_method_owner, getter_method_name)
 
             # STAGE 1.2 - get the value to be passed to the destination

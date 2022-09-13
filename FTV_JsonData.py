@@ -1,3 +1,9 @@
+"""
+Module contains definition of the class ('FTV_JsonDataManager') responsible for loading raw data from given json files,
+normalizing it and exposing as Pandas' dataframes.
+"""
+
+
 import json
 import pandas as pd
 from enum import Enum

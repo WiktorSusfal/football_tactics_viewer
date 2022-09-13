@@ -1,3 +1,9 @@
+"""
+Contains base classes definitions that ensure easy way for setting up event-driven synchronization of given attribute's
+values between chosen objects. It is a way of implementing the 'observable and observer object' pattern that can be
+used e.g. during GUI apps development.
+"""
+
 from OO_EH_Utilities import PropertyChangedEventHandler as uPCEventHandler
 
 
@@ -51,9 +57,10 @@ class ObserverObject(object):
             If the method should be 'setattr', then pass 'None' for this parameter.
         :param src_obj: Object containing attribute that the subscription is made for.
         :param src_property_name: Name of the attribute from 'src_obj' used as a source for subscription.
-        :param getter_method_name: Name of the method used to get the value from source attribute (by default, this
-            method is considered as a property of the attribute itself). If this is a property of 'src_obj' pass 'None'
-            for 'src_property_name' parameter.
+        :param getter_method_name: Name of the method used to get the value from source attribute. By default, this
+            method is considered as a property of the attribute itself. Only if there is no such method assigned to this
+            attribute, function tries to get the method directly from source main object (specified by 'src_obj'
+            parameter).
             If the method should be 'getattr', then pass 'None' for this parameter.
         :return: None
         """

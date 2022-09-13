@@ -1,3 +1,11 @@
+"""
+Contains definition of a base class ('DLW_List') for storing and visualizing multiple complex graphic objects
+('DLW_ListElement' instances) in a form of a list.
+Contains definition of a base class ('DLW_ListElement') for representing single list element object -
+with all necessary methods and attributes.
+Two above classes inherit from PyQt5.QtWidgets.QWidget.
+"""
+
 from PyQt5 import QtGui as qtg
 from PyQt5 import QtCore as qtc
 from PyQt5 import QtWidgets as qtw

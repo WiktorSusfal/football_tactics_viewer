@@ -1,14 +1,19 @@
+"""
+Module contains definition of classes that make up the app's GUI. Connects the GUI elements with view model, which
+is 'FTV_GUIDataManager' class instance.
+"""
+
 import pandas as pd
 import numpy as np
 from PyQt5 import QtWidgets as qtw
 from PyQt5 import QtCore as qt
 from PyQt5 import QtGui as qtg
 from varname import *
-import FTV_GUIData as ftvgd
+
 import FTV_JsonData as ftvjs
+import FTV_GUIData as ftvgd
 
 import sys
-
 sys.path.append('./Resources/Lib')
 from Resources.Lib import DLW_GUIList as GLI
 from Resources.Lib import PyQT5_GUI_Builder as GBU
@@ -99,6 +104,10 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
 
     It uses the 'DLW_List' class instance to simulate a dynamic list of widgets - read more on
     https://github.com/WiktorSusfal/dynamic_list_of_widgets_pyqt5
+
+    It uses the 'PyQT5_GUI_Builder' class to build necessary QLayout objects of the app GUI based on external XML file -
+    to decouple the code responsible for GUI building and logic implementation. Read more on:
+    https://github.com/WiktorSusfal/pyqt5_gui_builder
     """
 
     def __init__(self, gui_data_manager: ftvgd.FTV_GUIDataManager):
@@ -114,7 +123,7 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
         self.gdm = gui_data_manager
         # instance of DLW_List class to simulate the dynamic list of complex widgets
         self.dataset_list = GLI.DLW_List()
-        # Subscribe to events of deleting list elements from the application GUI - to perform relevant backend actions
+        # subscribe to events of deleting list elements from the application GUI - to perform relevant backend actions
         self.dataset_list.deleted_element_handler += self.removeListElement
 
         # code to build GUI layout of this class
@@ -163,15 +172,15 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
     def addListElement(self):
         """
         Function to add new dataset object to the application. Ensures that proper representation of new dataset
-        is added to the backend 'FTV_GUIDataManager' class instance and to the frontend 'DLW_List()' class instance.
-        This function is connected to the button present on the app screed (with 'Add' label).
+        is added to the backend 'FTV_GUIDataManager' class instance and to the frontend 'DLW_List' class instance.
+        This function is connected to the button present on the app screen (with 'Add' label).
 
         :return: None
         """
 
         self.no_of_datasets_added += 1
 
-        # Add the proper representation of new dataset to the frontend 'DLW_List()' class instance.
+        # Add the proper representation of new dataset to the frontend 'DLW_List' class instance.
         new_element_layout = GBU.PyQT5_GUI_Builder.returnGuiLayout(GUI_MAIN_CNFG_FILEPATH,
                                                                    DATASET_LAYOUT_NAME,
                                                                    self)
@@ -181,6 +190,7 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
         # Add the proper representation of new dataset to the backend 'FTV_GUIDataManager' class instance.
         self.gdm.add_new_ftv_dataset(self.new_dataset_name_provided, new_uuid)
 
+        # Update default name for new dataset that could be added to the list later
         self.dataset_name_input.setText(self.returnDefaultNameForNewDataset())
 
     def findListElementUuidByWidgetUsed(self, widget: qtw.QWidget, obj_name: str, widget_type) -> str:
@@ -229,7 +239,7 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
 
     def assignFramesFilePath(self):
         """
-        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opend
+        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opens
         QFileDialog and allows to choose the path to the relevant json file containing source data. The path is then
         updated in the relevant 'FTV_JsonDataManager' object from 'FTV_GUIDataManager' class instance.
 
@@ -246,7 +256,7 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
 
     def assignEventsFilePath(self):
         """
-        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opend
+        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opens
         QFileDialog and allows to choose the path to the relevant json file containing source data. The path is then
         updated in the relevant 'FTV_JsonDataManager' object from 'FTV_GUIDataManager' class instance.
 
@@ -263,7 +273,7 @@ class DataSetList(qtw.QWidget, OOBJ.ObserverObject):
 
     def assignLineupsFilePath(self):
         """
-        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opend
+        Function connected to QPushButton object from dataset list GUI element (item from 'DLW_List' object). Opens
         QFileDialog and allows to choose the path to the relevant json file containing source data. The path is then
         updated in the relevant 'FTV_JsonDataManager' object from 'FTV_GUIDataManager' class instance.
 
@@ -306,7 +316,7 @@ class PitchView(qtw.QWidget):
     @staticmethod
     def returnPixmap(png_file_path: str, scaled_width: int = None, scaled_height: int = None) -> qtg.QPixmap:
         """
-        Returns pixmap of given png file, scaled with given width and height.
+        Returns pixmap of the given png file, scaled with given width and height.
 
         :param png_file_path: String path to png file.
         :param scaled_width: Optional width parameter to scale pixmap.
@@ -440,7 +450,7 @@ class PitchView(qtw.QWidget):
         filling the rectangle specified.
 
         :param pitch_coordinates: Numpy array containing X and Y pitch coordinates - calculated based on raw json data.
-        :return: qt.QRect object.
+        :return: qt.QRect object
         """
 
         # add border sizes to the exact pitch coordinates
@@ -475,6 +485,10 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
 
     It inherits from 'ObserverObject' class to ensure automatic and event-driven data exchange between GUI objects
     and backed variables. Read more on https://github.com/WiktorSusfal/python_observable_objects
+
+    It uses the 'PyQT5_GUI_Builder' class to build necessary QLayout objects of the app GUI based on external XML file -
+    to decouple the code responsible for GUI building and logic implementation. Read more on:
+    https://github.com/WiktorSusfal/pyqt5_gui_builder
     """
 
     def __init__(self, gui_dm: ftvgd.FTV_GUIDataManager):
@@ -489,7 +503,8 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         # local reference to FTV_GUIData.FTV_GUIDataManager object
         self.gui_data_manager = gui_dm
 
-        # layout built based on an XML config file, containing two buttons - right top part of app screen
+        # layout built based on an XML config file, containing two buttons - right top part of app screen.
+        # read more about 'PyQT5_GUI_Builder.returnGuiLayout' on https://github.com/WiktorSusfal/pyqt5_gui_builder
         self.right_panel_options = GBU.PyQT5_GUI_Builder.returnGuiLayout(GUI_MAIN_CNFG_FILEPATH,
                                                                          RIGHT_PANEL_OPTIONS_LAYOUT_NAME,
                                                                          self)
@@ -541,7 +556,21 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         self.setLayout(self.main_layout)
 
     def createSubscriptions(self):
+        """
+        Creates subscriptions to given attribute's changes - for given PyQt5 GUI objects. Ensures that the data from
+        backend variables is automatically transferred to the visualization layer - every time relevant notification
+        is sent.
 
+        Read more in 'ObservableObjects' module docs.
+
+        :return: None
+        """
+
+        """
+        In the first example, every time there is notification about changes of 'self.gui_data_manager.json_filepaths'
+        attribute sent, the value of this attribute is get using 'getattr' function and pass to the 
+        'self.updateInformationRows' method as a parameter.
+        """
         self.subscribeToVariable(None, nameof(self.updateInformationRows),
                                  self.gui_data_manager, nameof(self.gui_data_manager.json_filepaths), None)
 
@@ -551,6 +580,11 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         self.subscribeToVariable(None, nameof(self.updatePitchLegendDetails),
                                  self.gui_data_manager, nameof(self.gui_data_manager.current_teams_details), None)
 
+        """
+         In the example below, every time there is notification about changes of 'self.gui_data_manager.current_frame'
+         attribute sent, the value of this attribute is get using 'getattr' function and assigned to the 
+         'self.current_frame_input' attribute using 'self.current_frame_input.setText' method. 
+         """
         self.subscribeToVariable(nameof(self.current_frame_input), nameof(self.current_frame_input.setText),
                                  self.gui_data_manager, nameof(self.gui_data_manager.current_frame), None)
 
@@ -575,12 +609,33 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         destination_label.setPixmap(qtg.QPixmap(pixmap_path))
 
     def refreshData(self):
+        """
+        Function to refresh data visualized on the right app pane.
+
+        :return: None
+        """
+        # This re-assignment is to re-call the setter of 'gui_data_manager.current_uuid' property that contains also
+        # methods to update necessary attributes and send notifications about their changes.
         self.gui_data_manager.current_uuid = self.gui_data_manager.current_uuid
 
     def recalculateData(self):
+        """
+        Function to invoke particular methods that read and transform json data relevant for the current selected
+        dataset list element 'DLW_ListElement' object.
+
+        :return: None
+        """
         self.gui_data_manager.recalculateData()
 
     def updateInformationRows(self, json_filepath_dict: dict):
+        """
+        Function that updates values of json files' paths presented on the screen - based on the dictionary of values
+        provided. Rewrites string values to the PyQt5 QLabel objects.
+
+        :param json_filepath_dict: Dictionary of values - json filepaths. Keys for the relevant filepaths must
+            conform the 'objectName' PyQt5 properties of QLabel objects presented on screen.
+        :return:
+        """
 
         for label_name in INFO_ROWS_VALUE_LABEL_NAMES:
             info_label = findFirstChildWidgetRecursively(self.information_rows_layout, qtw.QLabel, label_name)
@@ -593,8 +648,17 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
             info_label.setText(info_value)
             info_label.setToolTip(info_value)
 
-    def updatePitchView(self, arg):
+    def updatePitchView(self, *args):
+        """
+        Function that invokes relevant methods to update the visualization of players' positions on football pitch.
 
+        :return: None
+        """
+
+        # This method is a part of one of the subscriptions made inside 'createSubscriptions' method. Every time,
+        # the 'self.gui_data_manager.dataframes_updated' attribute changes, this method is called.
+
+        # Read necessary pandas dataframes from view model object.
         players_in_frame = self.gui_data_manager.current_players_locations
         event_details = self.gui_data_manager.current_event_details
         teams_details = self.gui_data_manager.current_teams_details
@@ -602,6 +666,12 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         self.pitch_view.updatePitchPlayers(players_in_frame, event_details, teams_details)
 
     def updatePitchLegendDetails(self, current_teams_details: pd.DataFrame):
+        """
+        Function to update data visualized under the view of football pitch on the app screen.
+
+        :param current_teams_details: Pandas dataframe containing details about current teams
+        :return: None
+        """
 
         if any(current_teams_details):
             first_team = current_teams_details.loc[0][ftvjs.FTV_LineupsJsonAttrNames.TEAM_NAME.value]
@@ -614,16 +684,39 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         self.second_team_label.setText(second_team)
 
     def getNextEventDetails(self):
+        """
+        Function to set the next frame number (next moment of football match) whose data needs to be visualized.
+
+        :return: None
+        """
         self.gui_data_manager.current_frame = str(int(self.gui_data_manager.current_frame) + 1)
 
     def getPrevEventDetails(self):
+        """
+        Function to set the previous frame number (previous moment of football match) whose data needs to be visualized.
+
+        :return: None
+        """
         self.gui_data_manager.current_frame = str(int(self.gui_data_manager.current_frame) - 1)
 
     def getGivenEventDetails(self):
+        """
+        Function to set the given frame number (given moment of football match) whose data needs to be visualized.
+        Given frame number is read from one of the QLineEdit object present on screen.
+
+        :return: None
+        """
         curr_frame_no = self.current_frame_input.text()
         self.gui_data_manager.current_frame = curr_frame_no
 
     def updateTimestamp(self, event_details: pd.DataFrame()):
+        """
+        Function to read the data about current timestamp of football match (related to the current event visualized),
+        format it and present on screen.
+
+        :param event_details: Pandas dataframe containing current event details.
+        :return: None
+        """
 
         if any(event_details):
             # get the minute of math from dataframe column
@@ -655,19 +748,21 @@ class DatasetGUIDetails(qtw.QWidget, OOBJ.ObserverObject):
         return minute + ' : ' + second
 
 
-# application main window class
 class MainWindow(qtw.QMainWindow):
+    """
+    Class representing the main widow of application.
+    """
     def __init__(self):
         super().__init__()
         # Initialize FTV_GUIDataManager object for main window
         self.g_data_manager = ftvgd.FTV_GUIDataManager()
         # Initialize DataSetList object for main window
         self.dataset_gui_list = DataSetList(self.g_data_manager)
-
         # Initialize DatasetGUIDetails object responsible for dataset details visualization
         self.dataset_gui_details = DatasetGUIDetails(self.g_data_manager)
 
         self.setWindowTitle('Football Tactics Viewer')
+
         self.central_widget = qtw.QWidget()
         self.setCentralWidget(self.central_widget)
         self.setFixedSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)
@@ -690,18 +785,24 @@ class MainWindow(qtw.QMainWindow):
         self.lay = qtw.QVBoxLayout(self.left_panel)
         self.lay.addWidget(self.dataset_gui_list)
 
-        # Add high-level objects to the right panel
+        # Add all elements to the right panel
         self.lay = qtw.QVBoxLayout(self.right_panel)
         self.lay.setAlignment(qt.Qt.AlignTop)
-        # self.lay.addLayout(self.right_panel_options)
         self.lay.addWidget(self.dataset_gui_details)
-        # self.lay.addStretch()
 
         self.createSubscriptions()
 
         self.show()
 
     def createSubscriptions(self):
+        """
+        Function to create necessary subscriptions to given event-handlers or attribute's changes.
+
+        :return: None
+        """
+
+        # Subscription to event handler form 'DLW_List' instance that informs about element selection. Ensures
+        # synchronization regarding current dataset selected between GUI list object and backed view model.
         self.dataset_gui_list.dataset_list.selected_element_changed_handler += self.g_data_manager.setCurrentUuid
 
 

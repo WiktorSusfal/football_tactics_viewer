@@ -1,3 +1,9 @@
+"""
+Contains definition of a class that provides methods to build PyQt5 QLayout object, that contains other
+PyQt5.QtWidgets.QWidget objects. Building is done based on a given XML file that contains definition of component
+elements that should be added to the result QLayout object.
+"""
+
 from PyQt5 import QtWidgets as QtWidgets
 from importlib import *
 from enum import *
@@ -326,6 +332,8 @@ class PyQT5_GUI_Builder:
             if arg_type == XmlCommonAttrValues.ARG_TYPE_VARIABLE.value:
                 arg_value = cls.getObjectBasedOnParentType(arg, modules_data, arg_value, current_object, base_object)
 
+            # If the argument has "self" datatype specified, the value that has to be passed is a reference to the
+            # current object that is being created
             if arg_type == XmlCommonAttrValues.ARG_TYPE_SELF.value:
                 arg_value = current_object
 

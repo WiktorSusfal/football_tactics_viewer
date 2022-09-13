@@ -1,3 +1,10 @@
+"""
+Contains definition of an event handler class that ensures chosen type of communication between:
+
+- 'DLW_List' elements and the list object itself,
+- 'DLW_List' object and external custom objects.
+"""
+
 
 class DLW_EventHandler:
     """
