@@ -6,7 +6,7 @@ import PyQt5.QtCore     as qtc
 from abc import ABC, abstractmethod, ABCMeta
 
 
-ICONS_PATH              = '../../../resources/icons'
+ICONS_PATH              = './resources/img'
 CUSTOM_VIEW_WIDGET_NAME = 'CUSTOM_VIEW_WIDGET'
 
 
@@ -49,7 +49,22 @@ class VWBaseView(ABC, qtw.QWidget,  metaclass=_VwBaseViewMeta):
         label.setObjectName(name)
         return label
     
-    def _produce_button(self, icon_rel_path: str = None, icon_size: int = None, button_name: str = None, button_label: str = None) -> qtw.QPushButton:
+    def _produce_icon_label(self, icon_rel_path: str, size_x: int, size_y: int
+                            , label_name: str = None, tooltip: str = None) -> qtw.QLabel:
+        icon = qtg.QIcon(os.path.join(ICONS_PATH, icon_rel_path))
+        print('getting icon from ', os.path.abspath(os.path.join(ICONS_PATH, icon_rel_path)))
+        icon_label = qtw.QLabel()
+        icon_label.setPixmap(icon.pixmap(size_x, size_y))
+
+        if label_name:
+            icon_label.setObjectName(label_name)
+
+        if tooltip:
+            icon_label.setToolTip(tooltip)
+
+        return icon_label
+    
+    def _produce_button(self, icon_rel_path: str = None, icon_size: int = None, button_name: str = None, button_label: str = None, tooltip: str = None) -> qtw.QPushButton:
         button = qtw.QPushButton()
         button.setCursor(qtc.Qt.PointingHandCursor)
 
@@ -65,4 +80,23 @@ class VWBaseView(ABC, qtw.QWidget,  metaclass=_VwBaseViewMeta):
         if button_label:
             button.setText(button_label)
 
+        if tooltip:
+            button.setToolTip(tooltip)
+
         return button
+    
+    def _produce_line_edit(self, name: str, validator: qtg.QValidator = None, echo_mode: int = None, init_val: str = None) -> qtw.QLineEdit:
+        line_edit = qtw.QLineEdit()
+        line_edit.setObjectName(name)
+
+        if echo_mode:
+            line_edit.setEchoMode(echo_mode)
+
+        if validator:
+            validator.setLocale(self.usl_locale)
+            line_edit.setValidator(validator)
+
+        if init_val:
+            line_edit.setText(init_val)
+
+        return line_edit

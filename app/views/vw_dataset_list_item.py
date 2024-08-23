@@ -1,8 +1,8 @@
 import PyQt5.QtWidgets  as qtw
 import PyQt5.QtCore     as qtc
 
-from app.views.components.vw_base_view import VWBaseView
-from app.view_models.vmd_dataset_list_item import VmdDatasetListItem, VmdDatasetDataType
+from app.views.components import VWBaseView
+from app.view_models import VmdDatasetListItem, VmdDatasetDataType
 
 
 OBJECT_NAME = 'DATASET_LIST_ITEM'
@@ -20,7 +20,7 @@ class VwDatasetListItem(VWBaseView):
 
         self._model: VmdDatasetListItem = model or VmdDatasetListItem(dataset_name=dataset_name)
 
-        self._l_name = self._produce_named_label('<dataset name>', OBJECT_LABEL_NAME)
+        self._l_name = self._produce_named_label(self._model._dataset_name, OBJECT_LABEL_NAME)
         self._b_load_lineups = self._produce_button(button_name=OBJECT_LOAD_LINEUPS_BUTTON_NAME, button_label='P_L')
         self._b_load_events  = self._produce_button(button_name=OBJECT_LOAD_EVENTS_BUTTON_NAME , button_label='P_E')
         self._b_load_frames  = self._produce_button(button_name=OBJECT_LOAD_FRAMES_BUTTON_NAME , button_label='P_F')
@@ -45,4 +45,16 @@ class VwDatasetListItem(VWBaseView):
         pass
 
     def _set_value_subscriptions(self):
-        pass
+        self._model.dataset_name_changed.connect(self._l_name.setText)
+        self._model.events_filepath_changed.connect(self._b_load_events.setToolTip)
+        self._model.frames_filepath_changed.connect(self._b_load_frames.setToolTip)
+        self._model.lineups_filepath_changed.connect(self._b_load_lineups.setToolTip)
+
+    def contextMenuEvent(self, event):
+        contextMenu = qtw.QMenu(self)
+        
+        action1 = qtw.QAction("Delete", self)
+        action1.triggered.connect(lambda: self._model.delete_item())
+        contextMenu.addAction(action1)
+        
+        contextMenu.exec_(event.globalPos())

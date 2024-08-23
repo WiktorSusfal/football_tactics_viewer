@@ -13,7 +13,8 @@ def visual_test_preview(target_widget: qtw.QWidget):
 
         def __init__(self, target_widget: qtw.QWidget):
             super(HpVisualTestWidget, self).__init__()
-            
+            target_widget.setParent(self)
+
             self.setWindowTitle("Visual Test View")
             self.setCentralWidget(target_widget)
 
