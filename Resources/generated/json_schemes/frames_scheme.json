@@ -1,0 +1,16 @@
+{
+    "event_uuid": "str",
+    "visible_area": [
+        "float"
+    ],
+    "freeze_frame": [
+        {
+            "teammate": "bool",
+            "actor": "bool",
+            "keeper": "bool",
+            "location": [
+                "float"
+            ]
+        }
+    ]
+}

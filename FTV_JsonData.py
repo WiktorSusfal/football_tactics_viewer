@@ -9,35 +9,9 @@ import pandas as pd
 from enum import Enum
 
 
-def returnJsonData(filepath: str):
-    """
-    Returns structured json data read from file - in form of dictionary or list of dictionaries
-
-    :param filepath: String filepath of the file containing source data.
-    :return: Structured json data read from file - in form of dictionary or list of dictionaries.
-    """
-    with open(filepath) as json_file:
-        json_data = json.load(json_file)
-
-    return json_data
 
 
-def parseJsonToTable(list_of_json_objects):
-    """
-    Parses structured json data to pandas dataframe. Accepts list of dictionaries (json structured data objects) or
-    single dictionary.
 
-    :param list_of_json_objects: List of dictionaries (json structured data objects) or single dictionary.
-    :return: Pandas DataFrame
-    """
-    if not isinstance(list_of_json_objects, list):
-        list_of_json_objects = [list_of_json_objects]
-
-    for json_object in list_of_json_objects:
-        if not isinstance(json_object, dict):
-            raise ValueError('Invalid content of json data provided. Expected list of dictionaries (json objects)')
-
-    return pd.read_json(json.dumps(list_of_json_objects), orient='records')
 
 
 class FTV_DataReadModes(Enum):
@@ -49,45 +23,10 @@ class FTV_DataReadModes(Enum):
     FRAMES = 2
 
 
-class FTV_FramesJsonAttrNames(Enum):
-    """
-    Contains possible names of json attributes from raw json file that is a base for Pandas DataFrame -
-    "frames_main" which is the attribute of 'FTV_JsonDataManager' class.
-    """
-    EVENT_UUID = 'event_uuid'
-    VISIBLE_AREA = 'visible_area'
-    FREEZE_FRAME = 'freeze_frame'
-    TEAMMATE = 'teammate'
-    ACTOR = 'actor'
-    KEEPER = 'keeper'
-    LOCATION = 'location'
 
 
-class FTV_EventsJsonAttrNames(Enum):
-    """
-    Contains possible names of columns for Pandas DataFrame - "events_main" that is the attribute of
-    'FTV_JsonDataManager' class.
-    """
-    ID = 'id'
-    PERIOD = 'period'
-    TIMESTAMP = 'timestamp'
-    MINUTE = 'minute'
-    SECOND = 'second'
-    TYPE = 'type'
-    TYPE_ID = 'id'
-    TYPE_NAME = 'name'
-    EVENT_TEAM = 'team'
-    EVENT_TEAM_ID = 'id'
-    EVENT_TEAM_NAME = 'name'
 
 
-class FTV_LineupsJsonAttrNames(Enum):
-    """
-    Contains possible names of columns for Pandas DataFrame - "lineups_main" that is the attribute of
-    'FTV_JsonDataManager' class.
-    """
-    TEAM_ID = 'team_id'
-    TEAM_NAME = 'team_name'
 
 
 class FTV_JsonDataManager:
@@ -369,9 +308,3 @@ class FTV_JsonDataManager:
         self.events_main = self.events_main.loc[self.events_main.id.isin(self.frames_main.event_uuid)]
         self.events_main.reset_index()
 
-    def normalizeLineupsData(self):
-        # only team IDs and team names are read, so result dataframe is a 2x2 matrix (2 teams taking part in game)
-        self.lineups_main = self.lineups_raw_dataframe[[FTV_LineupsJsonAttrNames.TEAM_ID.value,
-                                                        FTV_LineupsJsonAttrNames.TEAM_NAME.value]]
-
-        self.lineups_raw_dataframe = pd.DataFrame()
