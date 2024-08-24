@@ -19,12 +19,14 @@ class MdlLineupsData(MdlJsonModelBase):
 
     def __init__(self, j_filepath: str = None):
         super(MdlLineupsData, self).__init__(j_filepath=j_filepath)
+        self._teams_frame = self._get_empty_teams_frame()
 
-        self._lineups_frame = self._get_empty_data_frame()
-
-    def _get_empty_data_frame(self) -> pd.DataFrame:
-        return pd.DataFrame(columns=[val for val in self.EAN.value])
+    def _get_empty_teams_frame(self) -> pd.DataFrame:
+        return pd.DataFrame(columns=[[e.value for e in self.EAN]])
 
     def get_result_frames(self):
         raw_df = self._get_raw_data_frame()
-        self._lineups_frame = raw_df[[self.EAN.TEAM_ID.value, self.EAN.TEAM_NAME.value]]
+        self._teams_frame = raw_df[[self.EAN.TEAM_ID.value, self.EAN.TEAM_NAME.value]]
+
+    def _reset_result_frames(self):
+        self._teams_frame = self._get_empty_teams_frame()

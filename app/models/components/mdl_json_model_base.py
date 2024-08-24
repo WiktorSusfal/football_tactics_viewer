@@ -13,6 +13,7 @@ class MdlJsonModelBase(ABC):
 
     def set_json_filepath(self, j_filepath: str):
         self._j_filepath = j_filepath
+        self._reset_result_frames()
 
     def _read_json_data(self) -> Any:
         """
@@ -52,4 +53,8 @@ class MdlJsonModelBase(ABC):
     
     @abstractmethod
     def get_result_frames(self):
+        pass
+
+    @abstractmethod
+    def _reset_result_frames(self):
         pass
