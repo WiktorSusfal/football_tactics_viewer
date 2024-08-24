@@ -90,3 +90,4 @@ class MdlEventsData(MdlJsonModelBase):
             raw_df.reset_index()
 
         self._events_frame = raw_df
+        print(raw_df)

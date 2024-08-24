@@ -1,7 +1,8 @@
 import PyQt5.QtWidgets  as qtw
 
 from app.views.components import VWBaseView
-from app.view_models import VmdDatasetListItem, VmdDatasetList, DEFAULT_FILE_PATH
+from app.view_models import vmd_current_dataset
+from app.view_models import VmdDatasetListItem, VmdCurrentDataset, VmdSelectionChangedData
 
 
 OBJECT_NAME = 'DATASET_DETAILS_VIEW'
@@ -11,15 +12,15 @@ OBJECT_FORM_LABEL_VALUE = 'DATASET_DETAILS_VIEW_FORM_VALUE'
 
 class VwDatasetDetails(VWBaseView):
 
-    def __init__(self, model: VmdDatasetList = None, parent=None):
+    def __init__(self, model: VmdCurrentDataset = None, parent=None):
         super(VwDatasetDetails, self).__init__(parent=parent)
         self.setObjectName(OBJECT_NAME)
-        self._model = model or VmdDatasetList()
-        self._tmp_data_model: VmdDatasetListItem = self._model.get_current_item() or None
+        self._model = model or vmd_current_dataset
 
-        self._l_lineups = self._produce_named_label(self._tmp_data_model._lineups_filepath if self._tmp_data_model else DEFAULT_FILE_PATH, OBJECT_FORM_LABEL_VALUE)  
-        self._l_events  = self._produce_named_label(self._tmp_data_model._events_filepath  if self._tmp_data_model else DEFAULT_FILE_PATH, OBJECT_FORM_LABEL_VALUE)  
-        self._l_frames  = self._produce_named_label(self._tmp_data_model._frames_filepath  if self._tmp_data_model else DEFAULT_FILE_PATH, OBJECT_FORM_LABEL_VALUE)  
+        _tmp_data_model = self._model.get_current_item_data()
+        self._l_lineups = self._produce_named_label(_tmp_data_model._lineups_filepath, OBJECT_FORM_LABEL_VALUE)  
+        self._l_events  = self._produce_named_label(_tmp_data_model._events_filepath, OBJECT_FORM_LABEL_VALUE)  
+        self._l_frames  = self._produce_named_label(_tmp_data_model._frames_filepath, OBJECT_FORM_LABEL_VALUE)  
         
         self._data_form = qtw.QFormLayout()
         self._data_form.addRow(
@@ -40,8 +41,8 @@ class VwDatasetDetails(VWBaseView):
         self.show()
 
     def _set_value_subscriptions(self):
-        self._model.current_selection_changed.connect(self._selection_changed)
-        self._model.list_item_changed.connect(self._data_changed)
+        self._model.selection_changed.connect(self._selection_changed)
+        self._model.dataset_edited.connect(self._dataset_edited)
 
     def _bind_buttons_to_commands(self):
         pass
@@ -49,22 +50,21 @@ class VwDatasetDetails(VWBaseView):
     def _init_actions(self):
         pass
 
-    def _data_changed(self, *args):
-        item = self._model.get_current_item()
-        self._selection_changed(item)
+    def _dataset_edited(self, item: VmdDatasetListItem):
+        self._l_lineups.setText(item._lineups_filepath)
+        self._l_events.setText( item._events_filepath) 
+        self._l_frames.setText( item._frames_filepath)
 
-    def _selection_changed(self, item: VmdDatasetListItem):
-        if self._tmp_data_model:
-            self._tmp_data_model.events_filepath_changed.disconnect( self._l_events.setText)
-            self._tmp_data_model.lineups_filepath_changed.disconnect(self._l_lineups.setText)
-            self._tmp_data_model.frames_filepath_changed.disconnect( self._l_frames.setText)
+    def _selection_changed(self, info: VmdSelectionChangedData):
+        old, new = info.old, info.new
+        if old:
+            old.lineups_filepath_changed.disconnect(self._l_lineups.setText)
+            old.events_filepath_changed.disconnect(self._l_events.setText)
+            old.frames_filepath_changed.disconnect(self._l_frames.setText)
 
-        self._tmp_data_model = item
-        if self._tmp_data_model:
-            self._tmp_data_model.events_filepath_changed.connect( self._l_events.setText)
-            self._tmp_data_model.lineups_filepath_changed.connect(self._l_lineups.setText)
-            self._tmp_data_model.frames_filepath_changed.connect( self._l_frames.setText)
+        if new:
+            new.lineups_filepath_changed.connect(self._l_lineups.setText)
+            new.events_filepath_changed.connect(self._l_events.setText)
+            new.frames_filepath_changed.connect(self._l_frames.setText)
 
-        self._l_lineups.setText(item._lineups_filepath if item else DEFAULT_FILE_PATH)
-        self._l_events.setText( item._events_filepath  if item else DEFAULT_FILE_PATH) 
-        self._l_frames.setText( item._frames_filepath  if item else DEFAULT_FILE_PATH) 
+        self._dataset_edited(new)

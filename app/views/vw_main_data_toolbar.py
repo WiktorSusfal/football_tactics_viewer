@@ -1,7 +1,7 @@
 import PyQt5.QtWidgets  as qtw
 
 from app.views.components import VWBaseView
-from app.view_models import VmdDatasetList
+from app.view_models import VmdCurrentDataset
 
 
 OBJECT_NAME = 'MAIN_DATA_TOOLBAR'
@@ -11,10 +11,10 @@ OBJECT_RECALCULATE_BUTTON_NAME = 'MAIN_DATA_TOOLBAR_RECALCULATE_BUTTON'
 
 class VwMainDataToolbar(VWBaseView):
 
-    def __init__(self, model: VmdDatasetList = None, parent=None):
+    def __init__(self, model: VmdCurrentDataset = None, parent=None):
         super(VwMainDataToolbar, self).__init__(parent=parent)
         self.setObjectName(OBJECT_NAME)
-        self._model = model or VmdDatasetList()
+        self._model = model or VmdCurrentDataset()
 
         self._b_refresh     = self._produce_button(tooltip='Refresh Data', button_name=OBJECT_REFRESH_BUTTON_NAME, button_label='Refresh')
         self._b_recalculate = self._produce_button(tooltip='Recalculate Data', button_name=OBJECT_RECALCULATE_BUTTON_NAME, button_label='Recalculate')

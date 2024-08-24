@@ -18,16 +18,18 @@ class FramesJsonAttrNames(Enum):
     LOCATION        = 'location'
 
 class FramesVisibleAreaColNames(Enum):
-    CORNER_NO  = 'corner_no'
-    X_COORD    = 'x'
-    Y_COORD    = 'y'
+    EVENT_UUID      = 'event_uuid'
+    CORNER_NO       = 'corner_no'
+    X_COORD         = 'x'
+    Y_COORD         = 'y'
 
 class FramesPlayersColNames(Enum):
-    TEAMMATE = 'teammate'
-    ACTOR    = 'actor'
-    KEEPER   = 'keeper'
-    LOC_X    = 'loc_x'
-    LOC_Y    = 'loc_y'
+    EVENT_UUID      = 'event_uuid'
+    TEAMMATE        = 'teammate'
+    ACTOR           = 'actor'
+    KEEPER          = 'keeper'
+    LOC_X           = 'loc_x'
+    LOC_Y           = 'loc_y'
 
 
 class MdlFramesData(MdlJsonModelBase):
@@ -39,13 +41,8 @@ class MdlFramesData(MdlJsonModelBase):
     def __init__(self, j_filepath: str = None):
         super(MdlFramesData, self).__init__(j_filepath=j_filepath)
 
-        self._main_frame         = pd.DataFrame()
         self._visible_area_frame = pd.DataFrame()
         self._players_frame      = pd.DataFrame()
-
-    def _get_empty_main_frame(self) -> pd.DataFrame:
-        #return pd.DataFrame(columns=[e.value for e in self.ECN])
-        pass
     
     def _get_empty_visible_area_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.VCN])
@@ -61,11 +58,11 @@ class MdlFramesData(MdlJsonModelBase):
     def get_result_frames(self):
         raw_df = self._get_raw_data_frame()
 
-        #self._visible_area_frame = self._get_visible_area_frame(raw_df)
-        #self._players_frame      = self._get_players_frame(raw_df)
+        self._visible_area_frame = self._get_visible_area_frame(raw_df)
+        self._players_frame      = self._get_players_frame(raw_df)
         
     def _get_visible_area_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
-        eframe_columns =[ self.EAN.VISIBLE_AREA.value ]
+        eframe_columns =[ self.EAN.EVENT_UUID.value, self.EAN.VISIBLE_AREA.value ]
         raw_df: pd.DataFrame = raw_src_df.copy()[eframe_columns]
         
         # getting data from original "visible_area" column
@@ -96,7 +93,7 @@ class MdlFramesData(MdlJsonModelBase):
         return raw_df
     
     def _get_players_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
-        eframe_columns =[ self.EAN.FREEZE_FRAME.value ]
+        eframe_columns =[ self.EAN.EVENT_UUID.value, self.EAN.FREEZE_FRAME.value ]
         raw_df: pd.DataFrame = raw_src_df.copy()[eframe_columns]
 
         # each row of 'freeze_frame' column contains list of dictionaries 

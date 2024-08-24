@@ -7,20 +7,10 @@ class VmdDatasetList(QObject):
 
     list_item_added   = pyqtSignal(VmdDatasetListItem)
     list_item_deleted = pyqtSignal(VmdDatasetListItem)
-    list_item_changed  = pyqtSignal(VmdDatasetListItem)
-    current_selection_changed = pyqtSignal(VmdDatasetListItem)
-
 
     def __init__(self):
         super(VmdDatasetList, self).__init__()
-
-        self._current_dli: VmdDatasetListItem       = None
-        self._dli_list   : list[VmdDatasetListItem] = list()
-
-        self.get_filepath_changed_slot =  lambda: self.list_item_changed.emit(self._current_dli)
-
-    def get_current_item(self) -> VmdDatasetListItem:
-        return self._current_dli
+        self._dli_list: list[VmdDatasetListItem] = list()
 
     def add_item(self, name: str):
         dli = VmdDatasetListItem(name)
@@ -41,18 +31,8 @@ class VmdDatasetList(QObject):
                 break
             idx -= 1
 
-    def change_current_item(self, item: VmdDatasetListItem):
-        self._current_dli = item
-        self.current_selection_changed.emit(self._current_dli)
-
     def _subscribe_to_list_item(self, item: VmdDatasetListItem):
-        item.events_filepath_changed.connect( self.get_filepath_changed_slot)
-        item.frames_filepath_changed.connect( self.get_filepath_changed_slot)
-        item.lineups_filepath_changed.connect(self.get_filepath_changed_slot)
         item.delete_item_order.connect(self.delete_item)
 
     def _unsubscribe_to_list_item(self, item: VmdDatasetListItem):
-        item.events_filepath_changed.disconnect( self.get_filepath_changed_slot)
-        item.frames_filepath_changed.disconnect( self.get_filepath_changed_slot)
-        item.lineups_filepath_changed.disconnect(self.get_filepath_changed_slot)
         item.delete_item_order.disconnect( self.delete_item)
