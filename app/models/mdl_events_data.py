@@ -6,7 +6,7 @@ from app.models.components.mdl_json_model_base import MdlJsonModelBase
 
 class EventsJsonAttrNames(Enum):
     """
-    Contains possible names of columns for Pandas DataFrame storing events' data
+    Contains possible names of attributes of JSON storing events' data
     Compare with /resources/generated/events_scheme.json
     """
     ID              = 'id'
@@ -24,7 +24,6 @@ class EventsJsonAttrNames(Enum):
 class EventsFrameColNames(Enum):
     """
     Contains possible names of columns for Pandas DataFrame storing events' data
-    Compare with /resources/generated/events_scheme.json
     """
     ID              = 'id'
     PERIOD          = 'period'
@@ -49,6 +48,9 @@ class MdlEventsData(MdlJsonModelBase):
     def _get_empty_events_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.ECN])
     
+    def get_events_frame_by_event_uuid(self, uuid: str) -> pd.DataFrame:
+        return self._events_frame.loc[self._events_frame[self.ECN.ID.value] == uuid]
+    
     def reset_result_frames(self):
         self._events_frame = self._get_empty_events_frame()
 
@@ -58,8 +60,8 @@ class MdlEventsData(MdlJsonModelBase):
         
         df = self._events_frame
         
-        mmn = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.MINUTE]
-        sec = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.SECOND]
+        mmn = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.MINUTE.value].item()
+        sec = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.SECOND.value].item()
 
         return mmn, sec
 

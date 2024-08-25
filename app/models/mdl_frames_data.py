@@ -3,6 +3,10 @@ import pandas as pd
 
 from app.models.components.mdl_json_model_base import MdlJsonModelBase
 
+MIN_PLAYER_X_COORD = 0
+MAX_PLAYER_X_COORD = 120
+MIN_PLAYER_Y_COORD = 0
+MAX_PLAYER_Y_COORD = 80
 
 class FramesJsonAttrNames(Enum):
     """
@@ -56,6 +60,12 @@ class MdlFramesData(MdlJsonModelBase):
             return None
         
         return self._main_frame.loc[frame_no, self.MCN.EVENT_UUID.value]
+    
+    def get_visible_area_frame_by_frame(self, frame_no: int) -> pd.DataFrame:
+        return self._visible_area_frame.loc[self._visible_area_frame.index == frame_no]
+    
+    def get_players_frame_by_frame(self, frame_no: int) -> pd.DataFrame:
+        return self._players_frame.loc[self._players_frame.index == frame_no]
     
     def _get_empty_main_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.MCN])
@@ -144,5 +154,5 @@ class MdlFramesData(MdlJsonModelBase):
         
         # step 3 - delete not needed columns 
         raw_df = raw_df.drop(columns=[self.EAN.EVENT_UUID.value, self.EAN.FREEZE_FRAME.value])
-        
+
         return raw_df

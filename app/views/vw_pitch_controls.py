@@ -58,14 +58,15 @@ class VwPitchControls(VWBaseView):
 
     def _set_value_subscriptions(self):
         self._model.dataset_edited.connect(self._update_view)
-        self._model.disable_next_frame_btn.connect(self._b_frame_right.setDisabled)
-        self._model.disable_prev_frame_btn.connect(self._b_frame_left.setDisabled)
-        self._model.disable_read_frame_btn.connect(self._b_frame_read.setDisabled)
+        self._model.disable_next_frame_btn.connect(lambda x : self._b_frame_right.setDisabled(True) if x else self._b_frame_right.setEnabled(True))
+        self._model.disable_prev_frame_btn.connect(lambda x : self._b_frame_left.setDisabled(True)  if x else self._b_frame_left.setEnabled(True))
+        self._model.disable_read_frame_btn.connect(lambda x : self._b_frame_read.setDisabled(True)  if x else self._b_frame_read.setEnabled(True))
 
     def _bind_buttons_to_commands(self):
         self._b_frame_read.clicked.connect(self._model.get_data)
         self._b_frame_left.clicked.connect(self._model.previous_frame)
         self._b_frame_right.clicked.connect(self._model.next_frame)
+        self._l_frame_curr.editingFinished.connect(lambda: self._model.set_current_frame(self._l_frame_curr.text()))
         
     def _init_actions(self):
         self._model.check_curr_frame_no()

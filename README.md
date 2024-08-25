@@ -3,19 +3,13 @@ Python app to visualize json data describing the course of a particular football
 
 # Main modules used:
 - Visualization                 - PyQt5
-- Json dataset transformations  - pandas
-
-# Modules developed:
-- FTV_JsonData.py   - read, parse, normalize json data and save it as a set of dataframes
-- FTV_GUIData.py    - manage a list of objects defined in FTV_JsonData.py and prepare data for application GUI
-- FTV_UI_Manager.py - all stuff related to GUI of application
-- main.py           - example of invoking application
+- Json dataset transformations  - pandas, json
 
 # Source Data
 Source data - 3 types of json files for every football match - comes from StatsBomb open data repository: https://github.com/statsbomb/open-data.
 There are 3 types of files:
 - "event" - describing current event on a football pitch witch relevant: football team and player, timestamp, location etc... assigned
-- "three-sixty" (which are called 'frames' in the code) - describing current video camera frame captured during particular event (it includes locations of every player that is currently available on screen
+- "three-sixty" (which are called 'frames' in the code) - describing current video camera frame captured during particular event (it includes locations of every player) that is currently available on screen
 - "lineups" - describing teams taking part in given game with their lineup details.
 
 Relevant objects from json file types mentioned above can be paired using following json attributes:
@@ -43,4 +37,3 @@ So far, application supports following:
 - Solution to save and read data already calculated from json files to save time during future re-usage of it.
 - Solution to implement custom changes in player positions (drawing on pitch view) and save it to disk for future re-usage.
 - Place costly calculating functions inside separate threads not to block the application.
-

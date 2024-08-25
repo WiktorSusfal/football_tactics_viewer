@@ -1,3 +1,4 @@
+import pandas           as pd
 from enum               import Enum
 from PyQt5.QtWidgets    import QFileDialog
 from PyQt5.QtCore       import QObject, pyqtSignal
@@ -63,7 +64,7 @@ class VmdDatasetListItem(QObject):
         return self._format_timestamp(mmn, sec) or DEFAULT_TIMESTAMP
     
     def _format_timestamp(self, minute: int, second: int) -> str:
-        return f"{minute} : {second}"
+        return f"{str(minute).rjust(2, '0')} : {str(second).rjust(2, '0')}"
     
     def get_frames_no_data(self) -> str:
         return str(self._frames_no)
@@ -140,9 +141,18 @@ class VmdDatasetListItem(QObject):
             if data_type_name == VmdDatasetDataType.FRAMES.name:
                 self.set_frames_filepath(filepath) 
 
-    def get_data(self):
-        pass
+    def get_data(self) -> tuple[pd.DataFrame]:
+        """
+        :return lineups_frame, players_frame, events_frame
+        """
+        event_uuid = self._frames_model.get_event_uuid_by_frame(self._curr_frame)
 
+        lineups_frame = self._lineups_model.get_lineups_frame()
+        players_frame = self._frames_model.get_players_frame_by_frame(self._curr_frame)
+        events_frame  = self._events_model.get_events_frame_by_event_uuid(event_uuid)
+
+        return lineups_frame, players_frame, events_frame
+        
     def refresh_data(self):
         self.set_current_frame(val=1)
 
@@ -150,5 +160,8 @@ class VmdDatasetListItem(QObject):
         self._events_model.get_result_frames()
         self._frames_model.get_result_frames()
         self._lineups_model.get_result_frames()
+
+        self._frames_no  = self._frames_model.get_frames_no() or DEFAULT_FRAMES_NO
+        self._curr_frame = 1 if self._frames_no > 0 else DEFAULT_CURR_FRAME
 
         self.dataset_edited.emit()
