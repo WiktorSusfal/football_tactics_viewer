@@ -52,13 +52,16 @@ class VmdDatasetListItem(QObject):
     def get_id(self) -> int:
         return self._cnt
     
+    def get_team_names(self) -> tuple[str, str]:
+        return self._lineups_model.get_team_names()
+    
     def get_timestamp(self) -> str:
         event_uuid = self._frames_model.get_event_uuid_by_frame(self._curr_frame)
         if not event_uuid:
             return DEFAULT_TIMESTAMP
         
         mmn, sec = self._events_model.get_timestamp_raw_by_event_uuid(event_uuid)
-        if not mmn or not sec: 
+        if mmn is None or sec is None: 
             return DEFAULT_TIMESTAMP
 
         return self._format_timestamp(mmn, sec) or DEFAULT_TIMESTAMP

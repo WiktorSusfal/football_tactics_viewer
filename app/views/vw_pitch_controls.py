@@ -15,11 +15,12 @@ class VwPitchControls(VWBaseView):
     def __init__(self, model: VmdCurrentDataset = None, parent=None):
         super(VwPitchControls, self).__init__(parent=parent)
         self._model = model or vmd_current_dataset
-     
+        
+        t1, t2 = self._model.get_current_item_data().get_team_names()
         self._l_legend_ind_1 = self._produce_icon_label('red_rect.png', size_x=90, size_y=90,  label_name=OBJECT_LEGEND_IND_NAME)
-        self._l_legend_lbl_1 = self._produce_named_label('ind1', name=OBJECT_LEGEND_LBL_NAME)
+        self._l_legend_lbl_1 = self._produce_named_label(t1, name=OBJECT_LEGEND_LBL_NAME)
         self._l_legend_ind_2 = self._produce_icon_label('blue_rect.png', size_x=90, size_y=90, label_name=OBJECT_LEGEND_IND_NAME)
-        self._l_legend_lbl_2 = self._produce_named_label('ind1', name=OBJECT_LEGEND_LBL_NAME)
+        self._l_legend_lbl_2 = self._produce_named_label(t2, name=OBJECT_LEGEND_LBL_NAME)
         
         self._legend_layout = qtw.QHBoxLayout()
         self._legend_layout.addWidget(self._l_legend_ind_1)
@@ -75,3 +76,7 @@ class VwPitchControls(VWBaseView):
         self._l_timestamp_value.setText(item.get_timestamp())
         self._l_frame_curr.setText(item.get_curr_frame_data())
         self._l_frame_max.setText(item.get_frames_no_data())
+
+        t1, t2 = item.get_team_names()
+        self._l_legend_lbl_1.setText(t1)
+        self._l_legend_lbl_2.setText(t2)

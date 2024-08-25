@@ -52,7 +52,6 @@ class VWBaseView(ABC, qtw.QWidget,  metaclass=_VwBaseViewMeta):
     def _produce_icon_label(self, icon_rel_path: str, size_x: int, size_y: int
                             , label_name: str = None, tooltip: str = None) -> qtw.QLabel:
         icon = qtg.QIcon(os.path.join(ICONS_PATH, icon_rel_path))
-        print('getting icon from ', os.path.abspath(os.path.join(ICONS_PATH, icon_rel_path)))
         icon_label = qtw.QLabel()
         icon_label.setPixmap(icon.pixmap(size_x, size_y))
 
