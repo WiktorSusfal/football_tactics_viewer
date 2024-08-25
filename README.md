@@ -1,5 +1,5 @@
 # football_tactics_viewer
-Python app to visualize json data describing the course of a particular football match
+Python app to visualize json data describing the course of a particular football match. Presentation video: https://youtu.be/leJww2ytKNQ
 
 # Main modules used:
 - Visualization                 - PyQt5
@@ -22,6 +22,8 @@ So far, application supports following:
 - all of them can have the data calculated and they can be changed in the fly during data visualization,
 - location of each player included in current set of data from "three-sixty" file type is displayed for choosen number of frame (choosen event during match)
 - some common data regarding event details is presented.
+
+![My Image](/Resources/sample_screen.PNG)
 
 # Limitations caused by source data
 - Particular players cannot be easily distinguished for every video frame. There is no such information provided in json files. So there is only a division into players of one and second team. 
