@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from typing   import Any
 from abc      import ABC, abstractmethod
+from io       import StringIO
 
 
 class MdlJsonModelBase(ABC):
@@ -45,7 +46,7 @@ class MdlJsonModelBase(ABC):
             if not isinstance(j_object, dict):
                 raise ValueError('Invalid content of json data provided. Expected list of dictionaries (json objects)')
 
-        raw_df = pd.read_json(json.dumps(j_objects), orient='records')
+        raw_df = pd.read_json(StringIO(json.dumps(j_objects)), orient='records')
         raw_df.index += 1 
 
         return raw_df

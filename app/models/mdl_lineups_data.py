@@ -4,6 +4,9 @@ import pandas as pd
 from app.models.components.mdl_json_model_base import MdlJsonModelBase
 
 
+DEFAULT_TEAM_NAME = '<no data>'
+
+
 class LineupsJsonAttrNames(Enum):
     """
     Contains possible names of attributes of JSON storing lineups' data
@@ -31,6 +34,12 @@ class MdlLineupsData(MdlJsonModelBase):
 
     def get_lineups_frame(self):
         return self._lineups_frame
+    
+    def get_team_names(self):
+        df = self._lineups_frame
+        if df.empty:
+            return DEFAULT_TEAM_NAME, DEFAULT_TEAM_NAME
+        return df.loc[1, self.ECN.TEAM_NAME.value], df.loc[2, self.ECN.TEAM_NAME.value]
 
     def _get_empty_lineups_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[[e.value for e in self.ECN]])

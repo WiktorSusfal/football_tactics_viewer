@@ -37,10 +37,6 @@ class VwFootballPitch(VWBaseView):
 
         self.setFixedSize(FOOTBALL_PITCH_WIDTH, FOOTBALL_PITCH_HEIGHT)
 
-        self._pitch_pixmap = self._return_pixmap(FOOTBALL_PITCH_PIXMAP_PATH,
-                                              scaled_height=FOOTBALL_PITCH_HEIGHT, scaled_width=FOOTBALL_PITCH_WIDTH
-                                              )
-
         self._model = model or vmd_football_pitch
         
         self._setup()
@@ -76,8 +72,29 @@ class VwFootballPitch(VWBaseView):
         :param event: PyQt5 event.
         :return: None
         """
+        pitch_pixmap = self._return_pixmap(FOOTBALL_PITCH_PIXMAP_PATH
+                                        ,scaled_height=FOOTBALL_PITCH_HEIGHT
+                                        ,scaled_width =FOOTBALL_PITCH_WIDTH)
+        # painter to draw on pixmap
+        pixmap_painter = qtg.QPainter(pitch_pixmap)
+        
+        for item in self._model.get_paint_data():
+            item: VmdPitchPlayersData = item
+
+            pitch_coordinates = np.array([
+                 self._map_x_coordinate(item.x_coord)
+                ,self._map_y_coordinate(item.y_coord)
+            ])
+            pixmap_coordinates = self._get_pixmap_coordinates(pitch_coordinates)
+
+            pixmap_painter.setBrush(qtg.QBrush(item.color))
+            pixmap_painter.drawEllipse(pixmap_coordinates)
+        
+        pixmap_painter.end()
+
         painter = qtg.QPainter(self)
-        painter.drawPixmap(self.rect(), self._pitch_pixmap)
+        painter.drawPixmap(self.rect(), pitch_pixmap)
+        painter.end()
 
     def _set_value_subscriptions(self):
         self._model.player_pitch_data_changed.connect(self._update_view)
@@ -94,30 +111,6 @@ class VwFootballPitch(VWBaseView):
         
         :return: None
         """
-        # painter to draw pixmap itself:
-        main_painter = qtg.QPainter(self)
-        # reset the pitch view before drawing
-        self.pitch_pixmap = self._return_pixmap( FOOTBALL_PITCH_PIXMAP_PATH
-                                                ,scaled_height=FOOTBALL_PITCH_HEIGHT
-                                                ,scaled_width=FOOTBALL_PITCH_WIDTH)
-        main_painter.drawPixmap(self.rect(), self.pitch_pixmap)
-        
-        # painter to draw on pixmap
-        pixmap_painter = qtg.QPainter(self.pitch_pixmap)
-        
-        for item in data:
-            item: VmdPitchPlayersData = item
-
-            pitch_coordinates = np.array([
-                 self._map_x_coordinate(item.x_coord)
-                ,self._map_y_coordinate(item.y_coord)
-            ])
-            pixmap_coordinates = self._get_pixmap_coordinates(pitch_coordinates)
-
-            pixmap_painter.setBrush(qtg.QBrush(item.color))
-            print(pixmap_coordinates)
-            pixmap_painter.drawEllipse(pixmap_coordinates)
-        
         self.update()
 
     def _map_x_coordinate(self, org_x: float) -> int:

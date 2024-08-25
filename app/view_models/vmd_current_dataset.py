@@ -42,6 +42,7 @@ class VmdCurrentDataset(QObject):
         self._subscribe_to_list_item(item)
 
         self.selection_changed.emit(VmdSelectionChangedData(old=old, new=item))
+        self.get_data()
 
     def _subscribe_to_list_item(self, item: VmdDatasetListItem):
         item.dataset_edited.connect(self.get_dataset_edited_slot)

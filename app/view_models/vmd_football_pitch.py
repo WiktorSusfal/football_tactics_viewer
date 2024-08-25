@@ -39,6 +39,12 @@ class VmdFootballPitch(QObject):
         super(VmdFootballPitch, self).__init__()
         self._last_data: pd.Series[VmdPitchPlayersData] = pd.Series()
 
+    def get_paint_data(self) -> pd.Series:
+        """
+        :return: pd.Series of VmdPitchPlayersData objects
+        """
+        return self._last_data
+
     def get_data(self, frames_frame: pd.DataFrame, events_frame: pd.DataFrame, lineups_frame: pd.DataFrame):
         fdf, edf, ldf = frames_frame, events_frame, lineups_frame
 
