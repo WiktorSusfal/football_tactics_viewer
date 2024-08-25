@@ -19,6 +19,7 @@ class VwMainView(VWBaseView):
         self._right_pane_layout.addWidget(self._vw_pitch_view )
         self._right_pane_layout.addWidget(self._vw_pitch_controls )
         self._right_pane_layout.addWidget(self._vw_dataset_details )
+        self._right_pane_layout.addStretch()
 
         self._main_layout = qtw.QHBoxLayout()
         self._main_layout.addWidget(self._vw_dataset_list)

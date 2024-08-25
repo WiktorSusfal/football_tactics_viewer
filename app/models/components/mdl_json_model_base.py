@@ -13,7 +13,7 @@ class MdlJsonModelBase(ABC):
 
     def set_json_filepath(self, j_filepath: str):
         self._j_filepath = j_filepath
-        self._reset_result_frames()
+        self.reset_result_frames()
 
     def _read_json_data(self) -> Any:
         """
@@ -45,7 +45,10 @@ class MdlJsonModelBase(ABC):
             if not isinstance(j_object, dict):
                 raise ValueError('Invalid content of json data provided. Expected list of dictionaries (json objects)')
 
-        return pd.read_json(json.dumps(j_objects), orient='records')
+        raw_df = pd.read_json(json.dumps(j_objects), orient='records')
+        raw_df.index += 1 
+
+        return raw_df
     
     def _get_raw_data_frame(self) -> pd.DataFrame:
         raw_json_obj = self._read_json_data()
@@ -56,5 +59,5 @@ class MdlJsonModelBase(ABC):
         pass
 
     @abstractmethod
-    def _reset_result_frames(self):
+    def reset_result_frames(self):
         pass

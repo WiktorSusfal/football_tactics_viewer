@@ -46,9 +46,7 @@ class VwDatasetListItem(VWBaseView):
 
     def _set_value_subscriptions(self):
         self._model.dataset_name_changed.connect(self._l_name.setText)
-        self._model.events_filepath_changed.connect(self._b_load_events.setToolTip)
-        self._model.frames_filepath_changed.connect(self._b_load_frames.setToolTip)
-        self._model.lineups_filepath_changed.connect(self._b_load_lineups.setToolTip)
+        self._model.dataset_edited.connect(self._update_view)
 
     def contextMenuEvent(self, event):
         contextMenu = qtw.QMenu(self)
@@ -58,3 +56,10 @@ class VwDatasetListItem(VWBaseView):
         contextMenu.addAction(action1)
         
         contextMenu.exec_(event.globalPos())
+
+    def _update_view(self):
+        item = self._model
+
+        self._b_load_events.setToolTip(item._events_filepath)
+        self._b_load_frames.setToolTip(item._frames_filepath)
+        self._b_load_lineups.setToolTip(item._lineups_filepath)

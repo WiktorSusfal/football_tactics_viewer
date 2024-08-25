@@ -17,14 +17,15 @@ class FramesJsonAttrNames(Enum):
     KEEPER          = 'keeper'
     LOCATION        = 'location'
 
-class FramesVisibleAreaColNames(Enum):
+class FramesMainColNames(Enum):
     EVENT_UUID      = 'event_uuid'
+
+class FramesVisibleAreaColNames(Enum):
     CORNER_NO       = 'corner_no'
     X_COORD         = 'x'
     Y_COORD         = 'y'
 
 class FramesPlayersColNames(Enum):
-    EVENT_UUID      = 'event_uuid'
     TEAMMATE        = 'teammate'
     ACTOR           = 'actor'
     KEEPER          = 'keeper'
@@ -35,14 +36,29 @@ class FramesPlayersColNames(Enum):
 class MdlFramesData(MdlJsonModelBase):
 
     EAN = FramesJsonAttrNames
+    MCN = FramesMainColNames
     VCN = FramesVisibleAreaColNames
     PCN = FramesPlayersColNames
 
     def __init__(self, j_filepath: str = None):
         super(MdlFramesData, self).__init__(j_filepath=j_filepath)
 
+        self._frames_no = 0
+        self._main_frame         = pd.DataFrame()
         self._visible_area_frame = pd.DataFrame()
         self._players_frame      = pd.DataFrame()
+
+    def get_frames_no(self) -> int:
+        return self._frames_no
+    
+    def get_event_uuid_by_frame(self, frame_no: int) -> str:
+        if frame_no < 1:
+            return None
+        
+        return self._main_frame.loc[frame_no, self.MCN.EVENT_UUID.value]
+    
+    def _get_empty_main_frame(self) -> pd.DataFrame:
+        return pd.DataFrame(columns=[e.value for e in self.MCN])
     
     def _get_empty_visible_area_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.VCN])
@@ -50,17 +66,26 @@ class MdlFramesData(MdlJsonModelBase):
     def _get_empty_players_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.PCN])
     
-    def _reset_result_frames(self):
-        self._main_frame         = self._get_empty_main_frame() 
+    def reset_result_frames(self):
+        self._frames_no          = 0
+        self._main_frame         = self._get_empty_main_frame()
         self._visible_area_frame = self._get_empty_visible_area_frame()
         self._players_frame      = self._get_empty_players_frame()
 
     def get_result_frames(self):
         raw_df = self._get_raw_data_frame()
+        self._main_frame         = self._get_main_frame(raw_df)
+        self._frames_no          = len(self._main_frame.index)
 
         self._visible_area_frame = self._get_visible_area_frame(raw_df)
         self._players_frame      = self._get_players_frame(raw_df)
-        
+
+    def _get_main_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
+        eframe_columns =[ self.EAN.EVENT_UUID.value ]
+        raw_df: pd.DataFrame = raw_src_df.copy()[eframe_columns]
+
+        return raw_df
+    
     def _get_visible_area_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
         eframe_columns =[ self.EAN.EVENT_UUID.value, self.EAN.VISIBLE_AREA.value ]
         raw_df: pd.DataFrame = raw_src_df.copy()[eframe_columns]
@@ -89,7 +114,8 @@ class MdlFramesData(MdlJsonModelBase):
                                                                             , 'c2': x[1]}))
         
         # step 5 - drop the pair column
-        raw_df = raw_df.drop(columns=[self.EAN.VISIBLE_AREA.value])
+        raw_df = raw_df.drop(columns=[self.EAN.EVENT_UUID.value, self.EAN.VISIBLE_AREA.value])
+        
         return raw_df
     
     def _get_players_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
@@ -117,5 +143,6 @@ class MdlFramesData(MdlJsonModelBase):
                                                                             ,'c5': x[self.EAN.LOCATION.value][1]}))
         
         # step 3 - delete not needed columns 
-        raw_df = raw_df.drop(columns=[self.EAN.FREEZE_FRAME.value])
+        raw_df = raw_df.drop(columns=[self.EAN.EVENT_UUID.value, self.EAN.FREEZE_FRAME.value])
+        
         return raw_df

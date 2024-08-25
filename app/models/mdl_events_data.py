@@ -49,10 +49,21 @@ class MdlEventsData(MdlJsonModelBase):
     def _get_empty_events_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[e.value for e in self.ECN])
     
-    def _reset_result_frames(self):
+    def reset_result_frames(self):
         self._events_frame = self._get_empty_events_frame()
 
-    def get_result_frames(self, filter_id_series: pd.Series = None):
+    def get_timestamp_raw_by_event_uuid(self, uuid: str) -> tuple[int, int]:
+        if not uuid:
+            return None, None
+        
+        df = self._events_frame
+        
+        mmn = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.MINUTE]
+        sec = df.loc[df[self.ECN.ID.value] == uuid, self.ECN.SECOND]
+
+        return mmn, sec
+
+    def get_result_frames(self):
         eframe_columns =[
             self.EAN.ID.value,
             self.EAN.PERIOD.value,
@@ -82,12 +93,4 @@ class MdlEventsData(MdlJsonModelBase):
                                                                                     ,'c2':x[self.EAN.EVENT_TEAM_NAME.value]}))
         raw_df.drop(columns=[self.EAN.EVENT_TEAM.value])
 
-        # not every event has relevant data related to players' positions on pitch.
-        # since this app is focused to visualize the player positions, the data frame with events data is limited
-        # only to these rows where 'id' column has equivalent value in 'event_uuid' one (in frames-related data frame)
-        if filter_id_series:
-            raw_df = raw_df.loc[raw_df[self.EAN.ID.value].isin(filter_id_series)]
-            raw_df.reset_index()
-
         self._events_frame = raw_df
-        print(raw_df)

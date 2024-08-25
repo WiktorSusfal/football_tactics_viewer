@@ -28,5 +28,5 @@ class MdlLineupsData(MdlJsonModelBase):
         raw_df = self._get_raw_data_frame()
         self._teams_frame = raw_df[[self.EAN.TEAM_ID.value, self.EAN.TEAM_NAME.value]]
 
-    def _reset_result_frames(self):
+    def reset_result_frames(self):
         self._teams_frame = self._get_empty_teams_frame()

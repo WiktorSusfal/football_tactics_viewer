@@ -57,14 +57,4 @@ class VwDatasetDetails(VWBaseView):
 
     def _selection_changed(self, info: VmdSelectionChangedData):
         old, new = info.old, info.new
-        if old:
-            old.lineups_filepath_changed.disconnect(self._l_lineups.setText)
-            old.events_filepath_changed.disconnect(self._l_events.setText)
-            old.frames_filepath_changed.disconnect(self._l_frames.setText)
-
-        if new:
-            new.lineups_filepath_changed.connect(self._l_lineups.setText)
-            new.events_filepath_changed.connect(self._l_events.setText)
-            new.frames_filepath_changed.connect(self._l_frames.setText)
-
         self._dataset_edited(new)
