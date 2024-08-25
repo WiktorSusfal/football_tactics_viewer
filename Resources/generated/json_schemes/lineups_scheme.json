@@ -1,0 +1,29 @@
+{
+    "team_id": "int",
+    "team_name": "str",
+    "lineup": [
+        {
+            "player_id": "int",
+            "player_name": "str",
+            "player_nickname": "NoneType",
+            "jersey_number": "int",
+            "country": {
+                "id": "int",
+                "name": "str"
+            },
+            "cards": [],
+            "positions": [
+                {
+                    "position_id": "int",
+                    "position": "str",
+                    "from": "str",
+                    "to": "str",
+                    "from_period": "int",
+                    "to_period": "int",
+                    "start_reason": "str",
+                    "end_reason": "str"
+                }
+            ]
+        }
+    ]
+}

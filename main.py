@@ -1,9 +1,9 @@
-import FTV_UI_Manager as ftvui
-from PyQt5 import QtWidgets as pqt
+from PyQt5.QtWidgets import QApplication
+
+from app import VwMainWindow
+
 
 if __name__ == '__main__':
-    app = pqt.QApplication([])
-    app_main_gui = ftvui.MainWindow()
+    app = QApplication([])
+    app_main_gui = VwMainWindow()
     app.exec_()
-
-

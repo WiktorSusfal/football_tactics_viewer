@@ -1,0 +1,1 @@
+JSON scheme files generated using app\helpers\json_schema.py

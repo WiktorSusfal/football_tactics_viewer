@@ -1,0 +1,42 @@
+{
+    "id": "str",
+    "index": "int",
+    "period": "int",
+    "timestamp": "str",
+    "minute": "int",
+    "second": "int",
+    "type": {
+        "id": "int",
+        "name": "str"
+    },
+    "possession": "int",
+    "possession_team": {
+        "id": "int",
+        "name": "str"
+    },
+    "play_pattern": {
+        "id": "int",
+        "name": "str"
+    },
+    "team": {
+        "id": "int",
+        "name": "str"
+    },
+    "duration": "float",
+    "tactics": {
+        "formation": "int",
+        "lineup": [
+            {
+                "player": {
+                    "id": "int",
+                    "name": "str"
+                },
+                "position": {
+                    "id": "int",
+                    "name": "str"
+                },
+                "jersey_number": "int"
+            }
+        ]
+    }
+}
