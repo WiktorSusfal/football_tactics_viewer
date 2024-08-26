@@ -1,3 +1,4 @@
+import os
 import pandas           as pd
 from enum               import Enum
 from PyQt5.QtWidgets    import QFileDialog
@@ -9,9 +10,10 @@ from multiprocessing    import freeze_support, set_start_method
 from app.models import MdlEventsData, MdlFramesData, MdlLineupsData
 
 
-DEFAULT_DATASET_NAME   = '<dataset name {no}>'
-DEFAULT_FILE_PATH      = '<no data>'
-FILTER_JSON_DATA_FILES = 'Json Files (*.json)'
+DEFAULT_DATASET_NAME        = '<dataset name {no}>'
+DEFAULT_FILE_PATH           = '<no data>'
+MAX_FILEPATH_DISPLAY_LEN    = 80
+FILTER_JSON_DATA_FILES      = 'Json Files (*.json)'
 
 DEFAULT_TIMESTAMP = 'N/A'
 DEFAULT_CURR_FRAME = 0 
@@ -45,6 +47,8 @@ class VmdDatasetListItem(QObject):
 
         self._dataset_name: str     = None 
         self.set_dataset_name(dataset_name)
+        
+        # below are display filepaths - can be not valid for obtaining memory assets (for user viewing purposes only)
         self._frames_filepath: str  = DEFAULT_FILE_PATH
         self._events_filepath: str  = DEFAULT_FILE_PATH
         self._lineups_filepath: str = DEFAULT_FILE_PATH
@@ -85,19 +89,45 @@ class VmdDatasetListItem(QObject):
         self._dataset_name = self._get_dataset_name(value)
         self.dataset_name_changed.emit(self._dataset_name)
 
+    def _get_display_path(self, p: str) -> str:
+        """
+        Returns given filepath is user-friendly display format. 
+        Takes the drive (first part of the path) and appends so many path's parts that the final length is less than given threshold. 
+        The priority is to append the most ENDING parts of the path as possible.
+
+        :param p: original path
+        :return str: formatted path
+        """
+        if not p:
+            return DEFAULT_FILE_PATH
+        
+        apath  = os.path.abspath(p)
+        drive  = f"{os.path.splitdrive(p)[0]}{os.sep}"
+        plen   = len(drive)
+        pparts = apath[plen:].split(os.sep)
+
+        tgt_parts = list()
+        while pparts and plen + len(pparts[-1]) < MAX_FILEPATH_DISPLAY_LEN:
+            tgt_parts.append(pparts.pop())
+            plen += len(tgt_parts[-1])
+
+        if tgt_parts:
+            drive = drive + f'...{os.sep}'
+        return drive + os.sep.join(tgt_parts[::-1])
+
     def set_frames_filepath(self, value: str):
         self._frames_model.set_json_filepath(value)
-        self._frames_filepath = value or DEFAULT_FILE_PATH
+        self._frames_filepath = self._get_display_path(value)
         self.dataset_edited.emit()
 
     def set_events_filepath(self, value: str):
         self._events_model.set_json_filepath(value)
-        self._events_filepath = value or DEFAULT_FILE_PATH
+        self._events_filepath = self._get_display_path(value)
         self.dataset_edited.emit()
 
     def set_lineups_filepath(self, value: str):
         self._lineups_model.set_json_filepath(value)
-        self._lineups_filepath = value or DEFAULT_FILE_PATH
+        self._lineups_filepath = self._get_display_path(value)
         self.dataset_edited.emit()
     
     def _set_frames_no(self, val: int):

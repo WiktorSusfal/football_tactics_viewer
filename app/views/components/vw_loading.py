@@ -2,18 +2,14 @@ from PyQt5.QtWidgets    import QDialog, QVBoxLayout, QLabel
 from PyQt5.QtGui        import QMovie
 import PyQt5.QtCore     as qtc
 
-from app.view_models      import VmdCurrentDataset
-from app.view_models      import vmd_current_dataset
-
 DIALOG_NAME = "Please Wait"
-LOAD_GIF_REL_PATH = r"resources\img\loading2.gif"
+LOAD_GIF_REL_PATH = r"resources\img\loading_big.gif"
 
 
 class VwLoading(QDialog):
 
-    def __init__(self, model: VmdCurrentDataset = None, parent=None):
+    def __init__(self, parent=None):
         super(VwLoading, self).__init__(parent=parent)
-        self._model = model or vmd_current_dataset
 
         self.setWindowTitle(DIALOG_NAME)
         self.setWindowModality(qtc.Qt.ApplicationModal)
@@ -27,6 +23,7 @@ class VwLoading(QDialog):
         layout.addWidget(self._label)
 
         self._load_gif = QMovie(LOAD_GIF_REL_PATH)
+        self._load_gif.setScaledSize(self._load_gif.scaledSize().scaled(200, 200, qtc.Qt.KeepAspectRatio))
         self._label.setMovie(self._load_gif)
     
         self.setLayout(layout)
