@@ -19,8 +19,8 @@ class VwMainDataToolbar(VWBaseView):
         self._loading_dialog = VwLoading(parent=parent)
 
         self._l_title       = self._produce_named_label(content='Explore dataset', name=OBJECT_TITLE_LABEL_NAME)
-        self._b_refresh     = self._produce_button(tooltip='Refresh Data', button_name=OBJECT_REFRESH_BUTTON_NAME, button_label='Refresh')
-        self._b_recalculate = self._produce_button(tooltip='Recalculate Data', button_name=OBJECT_RECALCULATE_BUTTON_NAME, button_label='Recalculate')
+        self._b_refresh     = self._produce_button(tooltip='Refresh Data'    , button_name=OBJECT_REFRESH_BUTTON_NAME    , icon_rel_path=r'refresh24.png', icon_size=32)
+        self._b_recalculate = self._produce_button(tooltip='Recalculate Data', button_name=OBJECT_RECALCULATE_BUTTON_NAME, icon_rel_path=r'calculate64.png', icon_size=32)
 
         toolbar_layout = qtw.QHBoxLayout()
         toolbar_layout.addWidget(self._b_refresh)

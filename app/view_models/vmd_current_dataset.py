@@ -44,8 +44,9 @@ class VmdCurrentDataset(QObject):
         self.get_data()
 
     def _subscribe_to_list_item(self, item: VmdDatasetListItem):
-        item.dataset_edited.connect(self.get_dataset_edited_slot)
-        item.dataset_edited.connect(self.get_data)
+        if item:
+            item.dataset_edited.connect(self.get_dataset_edited_slot)
+            item.dataset_edited.connect(self.get_data)
 
     def _unsubscribe_to_list_item(self, item: VmdDatasetListItem):
         if item:

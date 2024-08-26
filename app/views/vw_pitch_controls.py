@@ -31,7 +31,7 @@ class VwPitchControls(VWBaseView):
 
         self._b_frame_left  = self._produce_button(button_label='<' , button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME)
         self._b_frame_right = self._produce_button(button_label='>' , button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME)
-        self._b_frame_read  = self._produce_button(button_label='GO', button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME)
+        self._b_frame_read  = self._produce_button(button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME, icon_rel_path=r'search64.png', icon_size=24)
         self._l_timestamp_name  = self._produce_named_label(content='Timestamp', name=OBJECT_LEGEND_LBL_NAME)
         self._l_timestamp_value = self._produce_named_label(content=self._model.get_current_item_data().get_timestamp(), name=OBJECT_LEGEND_LBL_NAME)
         self._l_frame_max   = self._produce_named_label(content=self._model.get_current_item_data().get_frames_no_data(), name=OBJECT_LEGEND_LBL_NAME)

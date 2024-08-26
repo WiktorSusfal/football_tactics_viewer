@@ -51,6 +51,7 @@ class VwDatasetDetails(VWBaseView):
         pass
 
     def _dataset_edited(self, item: VmdDatasetListItem):
+        item = self._model.get_current_item_data()
         self._l_lineups.setText(item._lineups_filepath)
         self._l_events.setText( item._events_filepath) 
         self._l_frames.setText( item._frames_filepath)
