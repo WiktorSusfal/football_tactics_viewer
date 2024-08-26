@@ -1,7 +1,7 @@
 import PyQt5.QtWidgets  as qtw
 
 from app.views.components import VWBaseView
-from app.view_models      import VmdCurrentDataset, VmdDatasetListItem
+from app.view_models      import VmdCurrentDataset
 from app.view_models      import vmd_current_dataset
 
 OBJECT_NAME = 'FOOTBALL_PITCH'
@@ -59,9 +59,7 @@ class VwPitchControls(VWBaseView):
 
     def _set_value_subscriptions(self):
         self._model.dataset_edited.connect(self._update_view)
-        self._model.disable_next_frame_btn.connect(lambda x : self._b_frame_right.setDisabled(True) if x else self._b_frame_right.setEnabled(True))
-        self._model.disable_prev_frame_btn.connect(lambda x : self._b_frame_left.setDisabled(True)  if x else self._b_frame_left.setEnabled(True))
-        self._model.disable_read_frame_btn.connect(lambda x : self._b_frame_read.setDisabled(True)  if x else self._b_frame_read.setEnabled(True))
+        self._model.selection_changed.connect(self._update_view)
 
     def _bind_buttons_to_commands(self):
         self._b_frame_read.clicked.connect(self._model.get_data)
@@ -70,9 +68,10 @@ class VwPitchControls(VWBaseView):
         self._l_frame_curr.editingFinished.connect(lambda: self._model.set_current_frame(self._l_frame_curr.text()))
         
     def _init_actions(self):
-        self._model.check_curr_frame_no()
-
-    def _update_view(self, item: VmdDatasetListItem):
+        pass
+    
+    def _update_view(self, *args):
+        item = self._model.get_current_item_data()
         self._l_timestamp_value.setText(item.get_timestamp())
         self._l_frame_curr.setText(item.get_curr_frame_data())
         self._l_frame_max.setText(item.get_frames_no_data())

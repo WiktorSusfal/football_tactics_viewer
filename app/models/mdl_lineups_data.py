@@ -44,9 +44,13 @@ class MdlLineupsData(MdlJsonModelBase):
     def _get_empty_lineups_frame(self) -> pd.DataFrame:
         return pd.DataFrame(columns=[[e.value for e in self.ECN]])
 
-    def get_result_frames(self):
+    def get_result_frames(self, func_id: str) -> tuple[str, tuple[pd.DataFrame]]:
         raw_df = self._get_raw_data_frame()
-        self._lineups_frame = raw_df[[self.EAN.TEAM_ID.value, self.EAN.TEAM_NAME.value]]
+        raw_df = raw_df[[self.EAN.TEAM_ID.value, self.EAN.TEAM_NAME.value]]
+        return func_id, (raw_df, )
+
+    def set_result_frames(self, lineups_frame: pd.DataFrame):
+        self._lineups_frame = lineups_frame
 
     def reset_result_frames(self):
         self._lineups_frame = self._get_empty_lineups_frame()

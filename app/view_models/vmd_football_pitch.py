@@ -47,9 +47,10 @@ class VmdFootballPitch(QObject):
 
     def get_data(self, frames_frame: pd.DataFrame, events_frame: pd.DataFrame, lineups_frame: pd.DataFrame):
         fdf, edf, ldf = frames_frame, events_frame, lineups_frame
-
+        
         if fdf.empty or edf.empty or ldf.empty:
-            self.player_pitch_data_changed.emit(list())
+            self._last_data = pd.Series()
+            self.player_pitch_data_changed.emit(self._last_data)
             return
 
         # get IDs of the first and the second team (first is a team in 0 row of lineups details data frame)
