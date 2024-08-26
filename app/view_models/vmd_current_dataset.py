@@ -85,7 +85,7 @@ class VmdCurrentDataset(QObject):
         if self._current_dli:
             self._current_dli.refresh_data()
     
-    def recalculate_data(self):
+    def recalculate_data_start(self):
         if self._current_dli:
             self.recalculation_in_progress.emit(True)
             self.worker  = VmdDataWorker(item=self._current_dli)

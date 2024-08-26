@@ -40,7 +40,7 @@ class VwMainDataToolbar(VWBaseView):
 
     def _bind_buttons_to_commands(self):
         self._b_refresh.clicked.connect(self._model.refresh_data)
-        self._b_recalculate.clicked.connect(self._model.recalculate_data)
+        self._b_recalculate.clicked.connect(self._model.recalculate_data_start)
 
     def _init_actions(self):
         pass
