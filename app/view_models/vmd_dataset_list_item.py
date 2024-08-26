@@ -4,6 +4,7 @@ from PyQt5.QtWidgets    import QFileDialog
 from PyQt5.QtCore       import QObject, pyqtSignal
 from concurrent.futures import ProcessPoolExecutor
 from concurrent.futures import as_completed
+from multiprocessing    import freeze_support, set_start_method
 
 from app.models import MdlEventsData, MdlFramesData, MdlLineupsData
 
@@ -164,6 +165,9 @@ class VmdDatasetListItem(QObject):
     def recalculate_data(self):
         executor = ProcessPoolExecutor(max_workers=3)
         futures  = list()
+
+        freeze_support()
+        set_start_method("spawn", force=True)
 
         EMODEL_FUNC_ID, FMODEL_FUNC_ID, LMODEL_FUNC_ID = 'emodel', 'fmodel', 'lmodel'
 

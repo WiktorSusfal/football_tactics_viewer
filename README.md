@@ -23,7 +23,7 @@ So far, application supports following:
 - location of each player included in current set of data from "three-sixty" file type is displayed for choosen number of frame (choosen event during match)
 - some common data regarding event details is presented.
 
-![My Image](/Resources/sample_screen.PNG)
+![My Image](/Resources/img/sample_screen.PNG)
 
 # Limitations caused by source data
 - Particular players cannot be easily distinguished for every video frame. There is no such information provided in json files. So there is only a division into players of one and second team. 
@@ -38,4 +38,3 @@ So far, application supports following:
 - Solution to track current score and present it.
 - Solution to save and read data already calculated from json files to save time during future re-usage of it.
 - Solution to implement custom changes in player positions (drawing on pitch view) and save it to disk for future re-usage.
-- Place costly calculating functions inside separate threads not to block the application.

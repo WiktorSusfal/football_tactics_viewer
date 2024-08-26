@@ -1,0 +1,7 @@
+QDialog {
+    background-color: #C9DABF;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 5px;
+    border: 3px solid #5F6F65;
+}
