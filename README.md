@@ -1,9 +1,10 @@
 # football_tactics_viewer
-Python app to visualize json data describing the course of a particular football match. Presentation video: https://youtu.be/leJww2ytKNQ
+Python desktop app, written using MVVM design pattern, for visualizing json data describing football events. 
+Presentation video: https://youtu.be/leJww2ytKNQ
 
 # Main modules used:
-- Visualization                 - PyQt5
-- Json dataset transformations  - pandas, json
+- Visualization  (GUI)          - PyQt5
+- Json dataset transformations  - pandas, json, concurrent
 
 # Source Data
 Source data - 3 types of json files for every football match - comes from StatsBomb open data repository: https://github.com/statsbomb/open-data.
@@ -18,17 +19,16 @@ Relevant objects from json file types mentioned above can be paired using follow
 
 # Application features
 So far, application supports following:
-- multiple objects representing json datasets (sets of 3 types of files mentioned above) can be added/deleted to/from a list on app GUI,
+- multiple objects representing json datasets (sets of 3 types of files mentioned above) - can be added/deleted to/from a list on app GUI,
 - all of them can have the data calculated and they can be changed in the fly during data visualization,
-- location of each player included in current set of data from "three-sixty" file type is displayed for choosen number of frame (choosen event during match)
-- some common data regarding event details is presented.
+- location of each player (included in current set of data from "three-sixty" file type) is displayed for chosen number of frame (chosen match's event)
+- some common data regarding event details is presented
 
 ![My Image](/Resources/img/sample_screen.PNG)
 
 # Limitations caused by source data
-- Particular players cannot be easily distinguished for every video frame. There is no such information provided in json files. So there is only a division into players of one and second team. 
-- Not all player data is included for particular frame, so not always 22 players are presented. Basically, presented are only those who have been inside video frame which the data was originally collected from.
-- Goalkeepers from teams cannot be easily distinguished and are being represented by the same graphic objects.
+- Particular players cannot be easily distinguished for every data frame. There is no such information provided in json files. So there is only a division into players of one and another team. 
+- Not all player data is included for particular frame, so not always 22 players are presented. Basically, presented are only those who have been inside video frame which the data was originally collected from - limitation of data source.
 - Ball location is not provided and ball is not presented in app so far.
 - Referees locations are not provided thus not presented.
 
@@ -36,5 +36,5 @@ So far, application supports following:
 - Algorithm that will allow to track the ball location.
 - Algorithm that will allow to track the identity of players.
 - Solution to track current score and present it.
-- Solution to save and read data already calculated from json files to save time during future re-usage of it.
-- Solution to implement custom changes in player positions (drawing on pitch view) and save it to disk for future re-usage.
+- Solution to save and read data already calculated from json files - to save time during future re-usage of it.
+- Solution to implement custom changes in player positions (drawing on pitch view) and saving changes to the disk for future re-usage.
