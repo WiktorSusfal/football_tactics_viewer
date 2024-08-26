@@ -1,6 +1,7 @@
 import PyQt5.QtWidgets  as qtw
 
 from app.views.components import VWBaseView
+from app.views.vw_loading import VwLoading
 from app.view_models import VmdCurrentDataset
 from app.view_models import vmd_current_dataset
 
@@ -16,6 +17,7 @@ class VwMainDataToolbar(VWBaseView):
         super(VwMainDataToolbar, self).__init__(parent=parent)
         self.setObjectName(OBJECT_NAME)
         self._model = model or vmd_current_dataset
+        self._loading_dialog = VwLoading(parent=parent)
 
         self._l_title       = self._produce_named_label(content='Explore dataset', name=OBJECT_TITLE_LABEL_NAME)
         self._b_refresh     = self._produce_button(tooltip='Refresh Data', button_name=OBJECT_REFRESH_BUTTON_NAME, button_label='Refresh')
@@ -36,11 +38,14 @@ class VwMainDataToolbar(VWBaseView):
         self.show()
 
     def _set_value_subscriptions(self):
-        pass
+        self._model.recalculation_in_progress.connect(self._manage_load_dialog)
 
     def _bind_buttons_to_commands(self):
         self._b_refresh.clicked.connect(self._model.refresh_data)
-        self._b_recalculate.clicked.connect(self._model.recalculate_data)
+        self._b_recalculate.clicked.connect(self._model.recalculate_data_start)
 
     def _init_actions(self):
         pass
+
+    def _manage_load_dialog(self, status):
+        self._loading_dialog.manage(status)

@@ -65,7 +65,7 @@ class MdlEventsData(MdlJsonModelBase):
 
         return mmn, sec
 
-    def get_result_frames(self):
+    def get_result_frames(self, func_id: str) -> tuple[str, tuple[pd.DataFrame]]:
         eframe_columns =[
             self.EAN.ID.value,
             self.EAN.PERIOD.value,
@@ -95,4 +95,8 @@ class MdlEventsData(MdlJsonModelBase):
                                                                                     ,'c2':x[self.EAN.EVENT_TEAM_NAME.value]}))
         raw_df.drop(columns=[self.EAN.EVENT_TEAM.value])
 
-        self._events_frame = raw_df
+        #self._events_frame = raw_df
+        return func_id, (raw_df, )
+
+    def set_result_frames(self, events_frame: pd.DataFrame):
+        self._events_frame = events_frame

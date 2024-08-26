@@ -82,13 +82,15 @@ class MdlFramesData(MdlJsonModelBase):
         self._visible_area_frame = self._get_empty_visible_area_frame()
         self._players_frame      = self._get_empty_players_frame()
 
-    def get_result_frames(self):
+    def get_result_frames(self, func_id: str) -> tuple[str, tuple[pd.DataFrame]]:
         raw_df = self._get_raw_data_frame()
-        self._main_frame         = self._get_main_frame(raw_df)
-        self._frames_no          = len(self._main_frame.index)
+        return func_id, (self._get_main_frame(raw_df), self._get_visible_area_frame(raw_df), self._get_players_frame(raw_df))
 
-        self._visible_area_frame = self._get_visible_area_frame(raw_df)
-        self._players_frame      = self._get_players_frame(raw_df)
+    def set_result_frames(self, main_frame: pd.DataFrame, visible_area_frame: pd.DataFrame, players_frame: pd.DataFrame):
+        self._main_frame         = main_frame
+        self._frames_no          = len(self._main_frame.index)
+        self._visible_area_frame = visible_area_frame
+        self._players_frame      = players_frame
 
     def _get_main_frame(self, raw_src_df: pd.DataFrame) -> pd.DataFrame:
         eframe_columns =[ self.EAN.EVENT_UUID.value ]

@@ -2,6 +2,8 @@ import pandas           as pd
 from enum               import Enum
 from PyQt5.QtWidgets    import QFileDialog
 from PyQt5.QtCore       import QObject, pyqtSignal
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import as_completed
 
 from app.models import MdlEventsData, MdlFramesData, MdlLineupsData
 
@@ -160,10 +162,27 @@ class VmdDatasetListItem(QObject):
         self.set_current_frame(val=1)
 
     def recalculate_data(self):
-        self._events_model.get_result_frames()
-        self._frames_model.get_result_frames()
-        self._lineups_model.get_result_frames()
+        executor = ProcessPoolExecutor(max_workers=3)
+        futures  = list()
 
+        EMODEL_FUNC_ID, FMODEL_FUNC_ID, LMODEL_FUNC_ID = 'emodel', 'fmodel', 'lmodel'
+
+        futures.append(executor.submit(self._events_model.get_result_frames, EMODEL_FUNC_ID))
+        futures.append(executor.submit(self._frames_model.get_result_frames, FMODEL_FUNC_ID))
+        futures.append(executor.submit(self._lineups_model.get_result_frames,LMODEL_FUNC_ID))
+
+        data_upd_dict = { 
+              EMODEL_FUNC_ID: self._events_model.set_result_frames
+            , FMODEL_FUNC_ID: self._frames_model.set_result_frames
+            , LMODEL_FUNC_ID: self._lineups_model.set_result_frames
+        }
+        
+        for future in as_completed(futures):
+            func_id, df_tuple = future.result()
+            data_upd_dict[func_id](*df_tuple)
+        
+        executor.shutdown()
+            
         self._frames_no  = self._frames_model.get_frames_no() or DEFAULT_FRAMES_NO
         self._curr_frame = 1 if self._frames_no > 0 else DEFAULT_CURR_FRAME
 

@@ -56,7 +56,11 @@ class MdlJsonModelBase(ABC):
         return self._parse_json_table(raw_json_obj)
     
     @abstractmethod
-    def get_result_frames(self):
+    def get_result_frames(self, func_id) -> tuple[str, tuple[pd.DataFrame]]:
+        pass
+
+    @abstractmethod
+    def set_result_frames(self, *args: list[pd.DataFrame]):
         pass
 
     @abstractmethod
