@@ -1,0 +1,42 @@
+QPushButton {
+    background-color: #5F6F65;
+    color: white;
+    border-radius: 5px;
+    font-family: Roboto; 
+    font-size: 15px;
+    font-weight: regular;
+    margin: 0px;
+    padding: 0px;
+}
+
+QPushButton:hover {
+    background-color: #C9DABF; 
+}
+
+QPushButton#TITLE_BAR_BUTTON {
+    width: 32px;
+    height: 32px;
+    border: None;
+}
+
+QPushButton#DATASET_LIST_ADD_BUTTON,
+QPushButton#FOOTBALL_PITCH_CONTROL_FRAME_BUTTON {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #5F6F65;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+QPushButton#DATASET_LIST_ITEM_LOAD_BUTTON{
+    width: 32px;
+    height: 32px;
+}
+
+QPushButton#MAIN_DATA_TOOLBAR_BUTTON{
+    width: 48px;
+    height: 48px;
+    border: 3px solid #5F6F65;
+    font-weight: bold;
+    font-size: 20px;
+}

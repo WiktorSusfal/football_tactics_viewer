@@ -7,9 +7,9 @@ from app.views.components import VWBaseView
 OBJECT_NAME = 'TITLE_BAR'
 OBJECT_ICON_LABEL_NAME = 'TITLE_BAR_ICON_LABEL'
 OBJECT_TITLE_LABEL_NAME = 'TITLE_BAR_TITLE_LABEL'
-OBJECT_BAR_BUTTON_NAME = 'TITLE BAR BUTTON'
+OBJECT_BAR_BUTTON_NAME = 'TITLE_BAR_BUTTON'
 
-TITLE = 'Football tactics viewer'
+TITLE = 'Football Tactics Viewer'
 MAIN_ICON_REL_PATH      = r'tactics_icon.png'
 CLOSE_ICON_REL_PATH     = r'close.png'
 MINIMIZE_ICON_REL_PATH  = r'minimize.png'
@@ -32,7 +32,7 @@ class VwTitleBar(VWBaseView):
         self._main_layout.addStretch()
         self._main_layout.addWidget(self._minimize_button, alignment=qtc.Qt.AlignRight | qtc.Qt.AlignVCenter, stretch=0)
         self._main_layout.addWidget(self._close_button, alignment=qtc.Qt.AlignRight | qtc.Qt.AlignVCenter, stretch=0)
-        
+
         self.setLayout(self._main_layout)
         self._setup()
 

@@ -1,0 +1,44 @@
+QLabel {
+    color: white;
+    font-family: Roboto; 
+    font-size: 15px;
+    font-weight: regular;
+    padding: 0px;
+    margin: 0px;
+}
+
+QLabel#TITLE_BAR_ICON_LABEL,
+QLabel#TITLE_BAR_TITLE_LABEL {
+   border: None;
+   font-weight: bold;
+}
+
+QLabel#DATASET_LIST_TITLE_LABEL,
+QLabel#MAIN_DATA_TOOLBAR_TITLE_LABEL,
+QLabel#FOOTBALL_PITCH_LEGEND_LBL,
+QLabel#FOOTBALL_PITCH_TIMESTAMP_LBL,
+QLabel#DATASET_DETAILS_VIEW_FORM_LABEL,
+QLabel#DATASET_DETAILS_VIEW_FORM_VALUE {
+   border: None;
+   color: #5F6F65;
+   font-size: 12px;
+   max-width: 550px;
+}
+
+QLabel#FOOTBALL_PITCH_TIMESTAMP_LBL {
+   min-width: 50px;
+}
+
+QLabel#DATASET_DETAILS_VIEW_FORM_VALUE {
+   font-style: italic;
+}
+
+QLabel#LIST_WIDGET_HINT_LABEL {
+   font-style: italic;
+   font-size: 12px;
+}
+
+QLabel#DATASET_LIST_ITEM_LABEL_NAME {
+   min-width: 130px;
+   max-width: 130px;
+}

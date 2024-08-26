@@ -3,7 +3,7 @@ import PyQt5.QtCore as qtc
 
 
 HINT_LABEL_CONTENT  = 'No connections added'
-HINT_LABEL_NAME     = 'HINT_LABEL'
+HINT_LABEL_NAME     = 'LIST_WIDGET_HINT_LABEL'
 
 class VwListWidget(qtw.QListWidget):
     def __init__(self):

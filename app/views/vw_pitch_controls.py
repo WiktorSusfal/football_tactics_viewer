@@ -7,7 +7,9 @@ from app.view_models      import vmd_current_dataset
 OBJECT_NAME = 'FOOTBALL_PITCH'
 OBJECT_LEGEND_IND_NAME = 'FOOTBALL_PITCH_LEGEND_IND'
 OBJECT_LEGEND_LBL_NAME = 'FOOTBALL_PITCH_LEGEND_LBL'
+OBJECT_TIMESTAMP_LBL_NAME = 'FOOTBALL_PITCH_TIMESTAMP_LBL'
 OBJECT_CONTROL_FRAME_BUTTON_NAME = 'FOOTBALL_PITCH_CONTROL_FRAME_BUTTON'
+OBJECT_CURRENT_FRAME_EDIT_NAME   = 'FOOTBALL_PITCH_EDIT_FRAME_INPUT'
 
 
 class VwPitchControls(VWBaseView):
@@ -32,10 +34,10 @@ class VwPitchControls(VWBaseView):
         self._b_frame_left  = self._produce_button(button_label='<' , button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME)
         self._b_frame_right = self._produce_button(button_label='>' , button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME)
         self._b_frame_read  = self._produce_button(button_name=OBJECT_CONTROL_FRAME_BUTTON_NAME, icon_rel_path=r'search64.png', icon_size=24)
-        self._l_timestamp_name  = self._produce_named_label(content='Timestamp', name=OBJECT_LEGEND_LBL_NAME)
-        self._l_timestamp_value = self._produce_named_label(content=self._model.get_current_item_data().get_timestamp(), name=OBJECT_LEGEND_LBL_NAME)
+        self._l_timestamp_name  = self._produce_named_label(content='Timestamp:', name=OBJECT_LEGEND_LBL_NAME)
+        self._l_timestamp_value = self._produce_named_label(content=self._model.get_current_item_data().get_timestamp(), name=OBJECT_TIMESTAMP_LBL_NAME)
         self._l_frame_max   = self._produce_named_label(content=self._model.get_current_item_data().get_frames_no_data(), name=OBJECT_LEGEND_LBL_NAME)
-        self._l_frame_curr  = self._produce_line_edit(init_val=self._model.get_current_item_data().get_curr_frame_data(), name=OBJECT_LEGEND_LBL_NAME)
+        self._l_frame_curr  = self._produce_line_edit(init_val=self._model.get_current_item_data().get_curr_frame_data(), name=OBJECT_CURRENT_FRAME_EDIT_NAME)
 
         self._controls_layout = qtw.QHBoxLayout()
         self._controls_layout.addWidget(self._b_frame_left)

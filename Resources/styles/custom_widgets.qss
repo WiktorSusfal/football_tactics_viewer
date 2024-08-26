@@ -1,0 +1,9 @@
+QWidget#TITLE_BAR {   
+    background-color: #9CA986;
+    height: 48px;
+    max-height: 48px;
+    min-height: 48px;
+    margin: 0px;
+    padding: 0px;
+    border: None;
+}

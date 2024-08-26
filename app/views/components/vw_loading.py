@@ -6,7 +6,7 @@ from app.view_models      import VmdCurrentDataset
 from app.view_models      import vmd_current_dataset
 
 DIALOG_NAME = "Please Wait"
-LOAD_GIF_REL_PATH = r"resources\img\loading.gif"
+LOAD_GIF_REL_PATH = r"resources\img\loading2.gif"
 
 
 class VwLoading(QDialog):
@@ -18,6 +18,8 @@ class VwLoading(QDialog):
         self.setWindowTitle(DIALOG_NAME)
         self.setWindowModality(qtc.Qt.ApplicationModal)
         self.setFixedSize(200, 200)
+
+        self.setWindowFlags(qtc.Qt.FramelessWindowHint | qtc.Qt.Dialog)
 
         layout = QVBoxLayout(self)
         self._label = QLabel(self)
