@@ -1,5 +1,4 @@
-from PyQt5.QtCore       import QObject, pyqtSignal
-from threading          import Thread
+from PyQt5.QtCore       import QObject, pyqtSignal, QThread
 
 from app.view_models.vmd_dataset_list_item import VmdDatasetListItem
 from app.view_models.vmd_football_pitch    import VmdFootballPitch
@@ -11,6 +10,18 @@ class VmdSelectionChangedData:
     def __init__(self, old: VmdDatasetListItem, new: VmdDatasetListItem):
         self.old = old 
         self.new = new
+
+
+class VmdDataWorker(QThread):
+    finished = pyqtSignal()
+
+    def __init__(self, item: VmdDatasetListItem, *args, **kwargs):
+        super(VmdDataWorker, self).__init__(*args, **kwargs)
+        self._item = item
+
+    def run(self):
+        self._item.recalculate_data()
+        self.finished.emit()
 
 
 class VmdCurrentDataset(QObject):
@@ -74,12 +85,12 @@ class VmdCurrentDataset(QObject):
         if self._current_dli:
             self._current_dli.refresh_data()
     
-    def recalculate_data_start(self):
+    def recalculate_data(self):
         if self._current_dli:
             self.recalculation_in_progress.emit(True)
-            t = Thread(target=self.recalculate_data_end, daemon=True)
-            t.start()
-        
-    def recalculate_data_end(self):
-        self._current_dli.recalculate_data()
-        self.recalculation_in_progress.emit(False)
+            self.worker  = VmdDataWorker(item=self._current_dli)
+           
+            self.worker.finished.connect(lambda: self.recalculation_in_progress.emit(False))
+            self.worker.finished.connect(self.worker.deleteLater)
+
+            self.worker.start()
