@@ -1,7 +1,6 @@
 import PyQt5.QtWidgets  as qtw
 
-from app.views.components import VWBaseView
-from app.views.vw_loading import VwLoading
+from app.views.components import VWBaseView, VwLoading
 from app.view_models import VmdCurrentDataset
 from app.view_models import vmd_current_dataset
 

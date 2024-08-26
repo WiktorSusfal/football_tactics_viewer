@@ -95,7 +95,6 @@ class MdlEventsData(MdlJsonModelBase):
                                                                                     ,'c2':x[self.EAN.EVENT_TEAM_NAME.value]}))
         raw_df.drop(columns=[self.EAN.EVENT_TEAM.value])
 
-        #self._events_frame = raw_df
         return func_id, (raw_df, )
 
     def set_result_frames(self, events_frame: pd.DataFrame):
