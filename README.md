@@ -1,6 +1,6 @@
 # football_tactics_viewer
 Python desktop app, written using MVVM design pattern, for visualizing json data describing football events. 
-Presentation video: https://youtu.be/leJww2ytKNQ
+Presentation video: https://youtu.be/QCa6N6-xYYU
 
 # Main modules used:
 - Visualization  (GUI)          - PyQt5
